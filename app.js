@@ -1,7 +1,7 @@
 const App = {
   state: null,
   labs: [],
-  route: 'home',
+  route: 'learn',
   tab: '',
   labDay: 1,
   selectedLab: null,
@@ -13,6 +13,8 @@ const App = {
 
   async init(){
     await this.refresh();
+    this.selectedScenario=Number(this.state.trainer.checkpoint.replace('scenario',''))||1;
+    this.selectedStep=this.state.learning[this.state.trainer.checkpoint]?.cursor||0;
     if(!sessionStorage.getItem('avdf_login')) document.getElementById('loginScreen').classList.remove('hidden');
     const hash = location.hash.replace('#/','');
     if(hash) this.route=hash.split('?')[0];
@@ -32,7 +34,7 @@ const App = {
     const body=opts.body?JSON.parse(opts.body):{};
     if(url==='/api/action'){const message=StaticEngine.act(body.action,body.payload||{});return {ok:true,message,state:StaticEngine.state};}
     if(url==='/api/command'){const output=StaticEngine.command(body.channel,body.command);return {ok:true,output,state:StaticEngine.state};}
-    if(url==='/api/reset'){StaticEngine.reset();return {ok:true,message:'Resetting static simulator',state:StaticEngine.state};}
+    if(url==='/api/reset'){StaticEngine.reset(body.checkpoint);return {ok:true,message:'Checkpoint siap. Konfigurasi dan evidence dimuat ulang.',state:StaticEngine.state};}
     throw new Error('Unsupported static endpoint');
   },
   async refresh(){
@@ -44,9 +46,9 @@ const App = {
     this.state=j.state; if(!quiet) this.toast(j.message||'Done'); this.render(); return j;
   },
   async reset(checkpoint='scenario01'){
-    const j=await this.api('/api/reset',{method:'POST',body:JSON.stringify({checkpoint})}); this.state=j.state; this.toast(j.message); this.render();
+    const j=await this.api('/api/reset',{method:'POST',body:JSON.stringify({checkpoint})}); this.state=j.state; this.selectedScenario=Number(this.state.trainer.checkpoint.replace('scenario',''));this.selectedStep=0;this.toast(j.message); this.render();
   },
-  async setRole(role){await this.action('set_role',{role},true);this.route=role==='admin'?'home':'dashboard';location.hash='#/'+this.route;},
+  async setRole(role){await this.action('set_role',{role},true);this.render();},
   go(route,tab=''){this.route=route;this.tab=tab;location.hash='#/'+route;this.render();},
   toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(this._tt);this._tt=setTimeout(()=>t.classList.remove('show'),2600);},
   closeModal(){document.getElementById('modal').classList.add('hidden')},
@@ -55,7 +57,7 @@ const App = {
   render(){
     if(!this.state) return;
     this.renderNav();
-    const fn={home:this.home,dashboard:this.dashboard,insights:this.insights,targets:this.targets,agents:this.agents,firewalls:this.firewalls,retention:this.retention,policies:this.policies,alerts:this.alerts,reports:this.reports,settings:this.settings,labs:this.labCenter,console:this.consolePage,trainer:this.trainer}[this.route]||this.home;
+    const fn={learn:this.learningPage,home:this.home,dashboard:this.dashboard,insights:this.insights,targets:this.targets,agents:this.agents,firewalls:this.firewalls,retention:this.retention,policies:this.policies,alerts:this.alerts,reports:this.reports,settings:this.settings,labs:this.labCenter,console:this.consolePage,trainer:this.trainer}[this.route]||this.home;
     document.getElementById('crumbs').innerHTML=`Oracle AVDF Training &nbsp;›&nbsp; ${esc(titleCase(this.route))}`;
     document.getElementById('page').innerHTML=fn.call(this);
     this.bindPage();
@@ -151,7 +153,7 @@ const App = {
   async submitTargetRegistration(){
     const password=document.getElementById('targetRegPassword').value;
     const j=await this.action('register_target',{password},true);
-    if(j.message.startsWith('Registration failed')){this.toast(j.message);return;}
+    if(j.message.startsWith('Gagal:')||j.message.startsWith('Registration failed')){this.toast(j.message);return;}
     this.closeModal();this.toast(j.message);this.render();
   },
   agents(){
@@ -225,11 +227,11 @@ AND :ROW_COUNT > 3</textarea></div></div><div class="available-fields"><b>Condit
   },
   async copyD4Policy(){await this.action('copy_d4_policy');},
   async exportD4Policy(){
-    const password=prompt('Enter export password for LAB_D4_DETECTIVE:'); if(password===null)return;
-    const j=await this.action('export_d4_policy',{password},true); this.toast(j.message);
-    if(!j.message.startsWith('LAB_D4_DETECTIVE exported')) return;
+    // Export is a plain training JSON file, without encryption.
+    const j=await this.action('export_d4_policy',{},true); this.toast(j.message);
+    if(j.message.startsWith('Gagal:')) return;
     const pol=this.state.firewall_policies.find(x=>x.name==='LAB_D4_DETECTIVE');
-    const blob=new Blob([JSON.stringify({format:'AVDF Training Policy Export',passwordProtected:true,policy:pol},null,2)],{type:'application/json'});
+    const blob=new Blob([JSON.stringify({format:'AVDF Training Policy Export',passwordProtected:false,policy:pol},null,2)],{type:'application/json'});
     const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='LAB_D4_DETECTIVE.avdfpolicy';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);
   },
   alerts(){const s=this.state;return this.pageHeader('Alerts','Triage alert events generated by failed-login thresholds and Database Firewall policy matches.',`<button class="btn" onclick="App.action('generate_incident')">Generate Forensic Incident</button>`)+(s.alerts.length?table(['Time','Severity','Message','Target','User','Object','Row Count','Policy','Status','Actions'],s.alerts.map(a=>[fmtTime(a.time),`<span class="severity-${a.severity}">${a.severity}</span>`,a.message,a.target||'PDB1_26AI',a.user||'—',a.object||'—',a.row_count??'—',a.policy||'—',this.badge(a.status),`<button class="btn small" onclick="App.showAlertDetail('${a.id}')">Investigate</button> <button class="btn small" onclick="App.action('open_alert',{id:'${a.id}'})">Open</button> <button class="btn small" onclick="App.action('ack_alert',{id:'${a.id}'})">Acknowledge</button> <button class="btn small" onclick="App.action('close_alert',{id:'${a.id}'})">Close</button>`])):'<div class="empty">No alerts generated.</div>')},
@@ -266,7 +268,7 @@ AND :ROW_COUNT > 3</textarea></div></div><div class="available-fields"><b>Condit
       return this.pageHeader('Summary Reports','')+avdfRegion('Summary Reports',table(['Name','Description','Schedule','Generate'],reports.map(r=>[r[0],r[1],'▦','▤'])));
     }
     if(tab==='compliance'){
-      return this.pageHeader('Compliance Reports','')+avdfRegion('Compliance Reports',table(['Compliance Group','Secured Targets','Entitlement Data','Status'],s.compliance_groups.map(g=>[g.name,g.targets.join(', ')||'—',s.entitlement_snapshots.length?'Available':'Not retrieved',g.targets.length?'Ready':'No targets'])));
+      return this.pageHeader('Compliance Reports','',`<button class="btn" onclick="App.action('add_compliance_target')">Assign PDB1_26AI to PCI-DSS</button>`)+avdfRegion('Compliance Reports',table(['Compliance Group','Secured Targets','Entitlement Data','Status'],s.compliance_groups.map(g=>[g.name,g.targets.join(', ')||'—',s.entitlement_snapshots.length?'Available':'Not retrieved',g.targets.length?'Ready':'No targets'])));
     }
     if(tab==='pdf'){
       return this.pageHeader('PDF/XLS Reports','')+avdfRegion('PDF/XLS Reports',`<div class="callout">Scheduled report generation in this simulator records the PDF/XLS job metadata without creating Oracle proprietary report output.</div>${s.report_schedules.length?table(['Schedule','Report','Format','Frequency','Status'],s.report_schedules.map(x=>[x.name,x.report,x.format,x.frequency,x.status])):'<div class="empty">No PDF/XLS report schedules.</div>'}`);
@@ -280,9 +282,9 @@ AND :ROW_COUNT > 3</textarea></div></div><div class="available-fields"><b>Condit
       return this.pageHeader('Stored Procedure Changes','Created, modified, and deleted stored procedures discovered by Stored Procedure Auditing.',`<button class="btn" onclick="App.action('schedule_spa')">Enable Retrieval</button> <button class="btn primary" onclick="App.action('retrieve_spa')">Retrieve Now</button>`)+
       avdfRegion('Stored Procedure Auditing',`<div class="callout"><b>Schedule:</b> ${s.spa_schedule?.enabled?'Enabled':'Not enabled'} · Target PDB1_26AI</div>${changes.length?table(['Time','Target','Procedure','Change','Version'],changes.map(x=>[fmtTime(x.time),x.target,x.procedure,x.change,x.version])):'<div class="empty">No stored procedure changes retrieved yet.</div>'}`);
     }
-    if(tab==='saved') return this.pageHeader('Saved Reports','',`<button class="btn primary" onclick="App.action('save_report')">Save D5_READER_INVESTIGATION</button>`)+avdfRegion('Saved Reports',s.saved_reports.length?table(['Name','Description','Sort'],s.saved_reports.map(x=>[x.name,x.description,x.sort])):'<div class="empty">No saved reports.</div>');
+    if(tab==='saved') return this.pageHeader('Saved Reports','',`<button class="btn primary" onclick="App.action('save_report',{filter:App.reportFilter,sort:App.reportSort,kind:App.reportKind})">Save D5_READER_INVESTIGATION</button>`)+avdfRegion('Saved Reports',s.saved_reports.length?table(['Name','Description','Sort',''],s.saved_reports.map((x,i)=>[x.name,x.description,x.sort,`<button class="btn small" onclick="App.openSavedReport(${i})">Open</button>`])):'<div class="empty">No saved reports.</div>');
     if(tab==='scheduled') return this.pageHeader('Report Schedules','',`<button class="btn primary" onclick="App.action('schedule_report')">Schedule Daily PDF</button>`)+avdfRegion('Report Schedules',s.report_schedules.length?table(['Schedule','Report','Frequency','Format','Status'],s.report_schedules.map(x=>[x.name,x.report,x.frequency,x.format,x.status])):'<div class="empty">No scheduled reports.</div>');
-    if(tab==='generated') return this.pageHeader('Generated Reports','')+avdfRegion('Generated Reports',s.report_schedules.length?table(['Report','Generated Time','Format','Status'],s.report_schedules.map(x=>[x.report,fmtTime(s.meta.updated_at),x.format,'Available'])):'<div class="empty">No generated reports.</div>');
+    if(tab==='generated') return this.pageHeader('Generated Reports','')+avdfRegion('Generated Reports',s.report_schedules.length?table(['Report','Generated Time','Format','Status'],s.report_schedules.map(x=>[x.report,fmtTime(s.meta.updated_at),x.format,'Metadata only — no file generated'])):'<div class="empty">No generated reports.</div>');
     return this.pageHeader('Reports','')+'<div class="empty">Select a report family from the left navigation.</div>';
   },
   showActivityDetail(i){
@@ -311,7 +313,7 @@ AND :ROW_COUNT > 3</textarea></div></div><div class="available-fields"><b>Condit
   },
   openCommandFromLab(key,i){const l=this.labs.find(x=>x.key===key);if(!l)return;const c=l.commands[i]||'';this.console=detectChannel(c);sessionStorage.setItem('avdf_prefill',c);this.go('console');},
 
-  consolePage(){const hist=this.state.history.filter(x=>x.channel===this.console).slice(-15);const pre=sessionStorage.getItem('avdf_prefill')||'';const hy=this.state._hybrid||{};setTimeout(()=>{const ta=document.getElementById('consoleInput');if(ta&&pre){ta.value=pre;sessionStorage.removeItem('avdf_prefill');}},0);return this.pageHeader('Command Consoles','Use the same command styles found in the hands-on labs. Simulation is always available; real Oracle execution is an explicit optional mode.')+`<div class="console-layout"><div class="console-tabs"><button class="${this.console==='os'?'active':''}" onclick="App.console='os';App.render()">OS Terminal</button><button class="${this.console==='sql'?'active':''}" onclick="App.console='sql';App.render()">SQL*Plus Simulator</button><button class="${this.console==='sql-hybrid'?'active':''}" onclick="App.console='sql-hybrid';App.render()">Real Oracle 26ai (Hybrid)</button><button class="${this.console==='avcli'?'active':''}" onclick="App.console='avcli';App.render()">AVCLI</button><div class="callout ${hy.enabled?'':'warn'}" style="font-size:12px"><b>Hybrid:</b> ${esc(hy.message||'Disabled by default. Set AVDF_SIM_HYBRID=1 on the database host to enable.')}</div><div class="callout" style="font-size:12px">Simulator consoles share one AVDF state. In hybrid SQL mode, a successful real SQL statement is mirrored into the AVDF simulation state so reports and alerts continue to work.</div></div><div class="terminal"><div class="term-title">${this.console==='os'?'oracle@db26ai $':this.console==='sql'||this.console==='sql-hybrid'?'SQL>':'avcli>'}</div><div id="termOut" class="term-output">${hist.length?hist.map(h=>`$ ${esc(h.command)}\n${esc(h.output)}\n`).join('\n'):'AVDF Training Simulator console ready.\n'}</div><div class="term-entry"><textarea id="consoleInput" placeholder="${this.console==='os'?'lsnrctl status':(this.console==='sql'||this.console==='sql-hybrid')?'SHOW PDBS':'LIST SECURED TARGET;'}"></textarea><button onclick="App.runConsole()">Run</button></div></div></div>`},
+  consolePage(){const hist=this.state.history.filter(x=>x.channel===this.console).slice(-15);const pre=sessionStorage.getItem('avdf_prefill')||'';const hy=this.state._hybrid||{};setTimeout(()=>{const ta=document.getElementById('consoleInput');if(ta&&pre){ta.value=pre;sessionStorage.removeItem('avdf_prefill');}},0);return this.pageHeader('Command Consoles','Konsol simulasi untuk panduan 12 skenario. Koneksi OS mengubah sesi SQL bersama. Perintah di luar cakupan ditolak.')+`<div class="console-layout"><div class="console-tabs"><button class="${this.console==='os'?'active':''}" onclick="App.console='os';App.render()">OS Terminal</button><button class="${this.console==='sql'?'active':''}" onclick="App.console='sql';App.render()">SQL*Plus Simulator</button><button class="${this.console==='avcli'?'active':''}" onclick="App.console='avcli';App.render()">AVCLI</button><div class="callout ${hy.enabled?'':'warn'}" style="font-size:12px"><b>Hybrid:</b> ${esc(hy.message||'Disabled by default. Set AVDF_SIM_HYBRID=1 on the database host to enable.')}</div><div class="callout" style="font-size:12px">Sesi SQL aktif: <b>${esc(this.state.db.session_user)} @ ${esc(this.state.db.container)}</b> · ${this.state.db.connected?'terhubung':'terputus'}. Semua perubahan hanya terjadi di browser.</div></div><div class="terminal"><div class="term-title">${this.console==='os'?'oracle@db26ai $':this.console==='sql'||this.console==='sql-hybrid'?'SQL>':'avcli>'}</div><div id="termOut" class="term-output">${hist.length?hist.map(h=>`$ ${esc(h.command)}\n${esc(h.output)}\n`).join('\n'):'AVDF Training Simulator console ready.\n'}</div><div class="term-entry"><textarea id="consoleInput" placeholder="${this.console==='os'?'lsnrctl status':(this.console==='sql'||this.console==='sql-hybrid')?'SHOW PDBS':'LIST SECURED TARGET;'}"></textarea><button onclick="App.runConsole()">Run</button></div></div></div>`},
   async runConsole(){const ta=document.getElementById('consoleInput');const command=ta.value.trim();if(!command)return;const j=await this.api('/api/command',{method:'POST',body:JSON.stringify({channel:this.console,command})});this.state=j.state;ta.value='';this.render();setTimeout(()=>{const o=document.getElementById('termOut');if(o)o.scrollTop=o.scrollHeight},0)},
 
   trainer(){
@@ -397,4 +399,3 @@ function miniMarkdown(md){
 }
 
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')App.closeModal()});
-App.init();

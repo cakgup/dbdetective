@@ -1,0 +1,2448 @@
+[
+  {
+    "id": "scenario01",
+    "number": 1,
+    "title": "ORACLE ENVIRONMENT, UNIFIED AUDIT, DAN NATIVE EVIDENCE",
+    "source": "training/avdf_handson/01_oracle_environment_unified_audit_dan_native_evidence.md",
+    "goal": "Buktikan aktivitas database menghasilkan Unified Audit.",
+    "expected": "AVDF_DEMO dapat membaca 107 pegawai; audit SELECT dan login gagal 1017 terlihat.",
+    "tip": "Audit merekam aktivitas; SELECT tetap diizinkan oleh privilege.",
+    "steps": [
+      {
+        "number": 1,
+        "title": "Verify Environment Variables",
+        "body": "\nOpen:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nTRAINING\n    ↓\nCommand Consoles\n    ↓\nOS Terminal\n```\n\nRun:\n\n**[OS TERMINAL]**\n\n```bash\necho $ORACLE_BASE\necho $ORACLE_HOME\necho $ORACLE_SID\nwhich sqlplus\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "echo $ORACLE_BASE\necho $ORACLE_HOME\necho $ORACLE_SID\nwhich sqlplus"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 2,
+        "title": "Verify Host and Network",
+        "body": "\n**[OS TERMINAL]**\n\n```bash\nhostname\n```\n\nRun:\n\n**[OS TERMINAL]**\n\n```bash\nip -br addr\n```\n\nExpected key value:\n\nRun:\n\n**[OS TERMINAL]**\n\n```bash\nip route\n```\n\nExpected route to:\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "hostname"
+          },
+          {
+            "channel": "os",
+            "command": "ip -br addr"
+          },
+          {
+            "channel": "os",
+            "command": "ip route"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 3,
+        "title": "Verify Listener",
+        "body": "\n**[OS TERMINAL]**\n\n```bash\nlsnrctl status\n```\n\nRun:\n\n**[OS TERMINAL]**\n\n```bash\nss -lntp | grep 1521\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "lsnrctl status"
+          },
+          {
+            "channel": "os",
+            "command": "ss -lntp | grep 1521"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 4,
+        "title": "Verify CDB/PDB",
+        "body": "\nOpen SQL*Plus Simulator.\n\nRun:\n\n**[SQL*PLUS]**\n\n```sql\nSHOW PDBS;\n```\n\nRun:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT instance_name,\n       status,\n       database_status\nFROM   v$instance;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SHOW PDBS;"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT instance_name,\n       status,\n       database_status\nFROM   v$instance;"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 5,
+        "title": "Verify Oracle Version",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT banner_full\nFROM   v$version;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT banner_full\nFROM   v$version;"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 6,
+        "title": "Verify Unified Auditing",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT parameter,\n       value\nFROM   v$option\nWHERE  parameter='Unified Auditing';\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT parameter,\n       value\nFROM   v$option\nWHERE  parameter='Unified Auditing';"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 7,
+        "title": "Switch to PDB1",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nALTER SESSION SET CONTAINER=PDB1;\nSHOW CON_NAME;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "ALTER SESSION SET CONTAINER=PDB1;\nSHOW CON_NAME;"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 8,
+        "title": "Create Training User",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nCREATE USER avdf_demo\nIDENTIFIED BY \"Oracle#26Lab1\";\n```\n\nGrant session:\n\n**[SQL*PLUS]**\n\n```sql\nGRANT CREATE SESSION\nTO avdf_demo;\n```\n\nGrant HR access:\n\n**[SQL*PLUS]**\n\n```sql\nGRANT SELECT\nON hr.employees\nTO avdf_demo;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "CREATE USER avdf_demo\nIDENTIFIED BY \"Oracle#26Lab1\";"
+          },
+          {
+            "channel": "sql",
+            "command": "GRANT CREATE SESSION\nTO avdf_demo;"
+          },
+          {
+            "channel": "sql",
+            "command": "GRANT SELECT\nON hr.employees\nTO avdf_demo;"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 9,
+        "title": "Create Unified Audit Policy",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nCREATE AUDIT POLICY avdf_day1_hr_access\n  ACTIONS SELECT ON hr.employees;\n```\n\nEnable:\n\n**[SQL*PLUS]**\n\n```sql\nAUDIT POLICY avdf_day1_hr_access\nBY avdf_demo;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "CREATE AUDIT POLICY avdf_day1_hr_access\n  ACTIONS SELECT ON hr.employees;"
+          },
+          {
+            "channel": "sql",
+            "command": "AUDIT POLICY avdf_day1_hr_access\nBY avdf_demo;"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 10,
+        "title": "Verify Audit Policy Definition",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT policy_name,\n       audit_option,\n       object_schema,\n       object_name\nFROM   audit_unified_policies\nWHERE  policy_name='AVDF_DAY1_HR_ACCESS';\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT policy_name,\n       audit_option,\n       object_schema,\n       object_name\nFROM   audit_unified_policies\nWHERE  policy_name='AVDF_DAY1_HR_ACCESS';"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 11,
+        "title": "Verify Enabled Policy",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT policy_name,\n       entity_name,\n       entity_type,\n       success,\n       failure\nFROM   audit_unified_enabled_policies\nWHERE  policy_name='AVDF_DAY1_HR_ACCESS';\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT policy_name,\n       entity_name,\n       entity_type,\n       success,\n       failure\nFROM   audit_unified_enabled_policies\nWHERE  policy_name='AVDF_DAY1_HR_ACCESS';"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 12,
+        "title": "Generate Audited SQL",
+        "body": "\nOS Terminal:\n\n**[OS TERMINAL]**\n\n```bash\nsqlplus -L 'avdf_demo/Oracle#26Lab1@//192.168.56.26:1521/PDB1'\n```\n\nSQL*Plus:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT COUNT(*)\nFROM hr.employees;\n```\n\nRun:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT employee_id,\n       first_name,\n       last_name\nFROM hr.employees\nFETCH FIRST 5 ROWS ONLY;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus -L 'avdf_demo/Oracle#26Lab1@//192.168.56.26:1521/PDB1'"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT COUNT(*)\nFROM hr.employees;"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT employee_id,\n       first_name,\n       last_name\nFROM hr.employees\nFETCH FIRST 5 ROWS ONLY;"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 13,
+        "title": "Query Native Evidence",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT TO_CHAR(event_timestamp,\n               'YYYY-MM-DD HH24:MI:SS') event_time,\n       dbusername,\n       action_name,\n       object_schema,\n       object_name,\n       return_code,\n       unified_audit_policies\nFROM   unified_audit_trail\nWHERE  dbusername='AVDF_DEMO'\nORDER  BY event_timestamp DESC;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus / as sysdba"
+          },
+          {
+            "channel": "sql",
+            "command": "ALTER SESSION SET CONTAINER=PDB1;"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT TO_CHAR(event_timestamp,\n               'YYYY-MM-DD HH24:MI:SS') event_time,\n       dbusername,\n       action_name,\n       object_schema,\n       object_name,\n       return_code,\n       unified_audit_policies\nFROM   unified_audit_trail\nWHERE  dbusername='AVDF_DEMO'\nORDER  BY event_timestamp DESC;"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": "Kembali ke SYS sebelum membaca evidence atau mengubah konfigurasi."
+      },
+      {
+        "number": 14,
+        "title": "Display SQL Text",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT TO_CHAR(event_timestamp,\n               'YYYY-MM-DD HH24:MI:SS') event_time,\n       action_name,\n       DBMS_LOB.SUBSTR(sql_text,100,1) sql_text\nFROM unified_audit_trail\nWHERE dbusername='AVDF_DEMO'\nORDER BY event_timestamp DESC;\n```\n\nExpected contains actual query text.\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT TO_CHAR(event_timestamp,\n               'YYYY-MM-DD HH24:MI:SS') event_time,\n       action_name,\n       DBMS_LOB.SUBSTR(sql_text,100,1) sql_text\nFROM unified_audit_trail\nWHERE dbusername='AVDF_DEMO'\nORDER BY event_timestamp DESC;"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 15,
+        "title": "Create Authentication Audit Policy",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nCREATE AUDIT POLICY avdf_day1_login\n  ACTIONS LOGON, LOGOFF;\n\nAUDIT POLICY avdf_day1_login;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus / as sysdba"
+          },
+          {
+            "channel": "sql",
+            "command": "ALTER SESSION SET CONTAINER=PDB1;"
+          },
+          {
+            "channel": "sql",
+            "command": "CREATE AUDIT POLICY avdf_day1_login\n  ACTIONS LOGON, LOGOFF;\n\nAUDIT POLICY avdf_day1_login;"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": "Kembali ke SYS sebelum membaca evidence atau mengubah konfigurasi."
+      },
+      {
+        "number": 16,
+        "title": "Generate Failed Authentication",
+        "body": "\nOS Terminal:\n\n**[OS TERMINAL]**\n\n```bash\nsqlplus -L 'avdf_demo/WrongPassword@//192.168.56.26:1521/PDB1'\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus -L 'avdf_demo/WrongPassword@//192.168.56.26:1521/PDB1'",
+            "expectedError": "ORA-01017"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 17,
+        "title": "Investigate Authentication Events",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT TO_CHAR(event_timestamp,\n               'YYYY-MM-DD HH24:MI:SS') event_time,\n       dbusername,\n       action_name,\n       return_code,\n       userhost,\n       client_program_name\nFROM unified_audit_trail\nWHERE dbusername='AVDF_DEMO'\nAND action_name IN ('LOGON','LOGOFF')\nORDER BY event_timestamp DESC;\n```\n\nInterpret:\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus / as sysdba"
+          },
+          {
+            "channel": "sql",
+            "command": "ALTER SESSION SET CONTAINER=PDB1;"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT TO_CHAR(event_timestamp,\n               'YYYY-MM-DD HH24:MI:SS') event_time,\n       dbusername,\n       action_name,\n       return_code,\n       userhost,\n       client_program_name\nFROM unified_audit_trail\nWHERE dbusername='AVDF_DEMO'\nAND action_name IN ('LOGON','LOGOFF')\nORDER BY event_timestamp DESC;"
+          }
+        ],
+        "route": "console",
+        "tab": "",
+        "note": "Kembali ke SYS sebelum membaca evidence atau mengubah konfigurasi."
+      }
+    ]
+  },
+  {
+    "id": "scenario02",
+    "number": 2,
+    "title": "AVDFCOLLECT, SECURED TARGET, DAN TABLE AUDIT COLLECTION",
+    "source": "training/avdf_handson/02_avdfcollect_secured_target_dan_table_audit_collection.md",
+    "goal": "Hubungkan bukti lokal ke repository Audit Vault.",
+    "expected": "TABLE trail COLLECTING dan event AVDF_DEMO muncul di All Activity.",
+    "tip": "Jika bukti lokal kosong, periksa audit policy. Jika hanya pusat kosong, periksa collection.",
+    "steps": [
+      {
+        "number": 1,
+        "title": "Download Target Setup Script",
+        "body": "\nLogin Administrator.\n\nNavigate:\n\n**[WEB CONSOLE]**\n\n```text\nTargets\n```\n\nGunakan Target Setup Script function.\n\nExpected file concept:\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "download_setup_script",
+            "payload": {}
+          }
+        ],
+        "route": "targets",
+        "tab": "trails",
+        "note": ""
+      },
+      {
+        "number": 2,
+        "title": "Create AVDFCOLLECT",
+        "body": "\nSQL*Plus:\n\n**[SQL*PLUS]**\n\n```sql\nALTER SESSION SET CONTAINER=PDB1;\n\nCREATE USER avdfcollect\nIDENTIFIED BY \"Oracle#AVDF26\";\n\nGRANT CREATE SESSION\nTO avdfcollect;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "ALTER SESSION SET CONTAINER=PDB1;\n\nCREATE USER avdfcollect\nIDENTIFIED BY \"Oracle#AVDF26\";\n\nGRANT CREATE SESSION\nTO avdfcollect;"
+          }
+        ],
+        "route": "targets",
+        "tab": "trails",
+        "note": ""
+      },
+      {
+        "number": 3,
+        "title": "Run SETUP Mode",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\n@/home/oracle/avdf_setup/oracle_user_setup.sql AVDFCOLLECT SETUP\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "@/home/oracle/avdf_setup/oracle_user_setup.sql AVDFCOLLECT SETUP"
+          }
+        ],
+        "route": "targets",
+        "tab": "trails",
+        "note": ""
+      },
+      {
+        "number": 4,
+        "title": "Verify AVDFCOLLECT",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT username,\n       account_status,\n       profile\nFROM dba_users\nWHERE username='AVDFCOLLECT';\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT username,\n       account_status,\n       profile\nFROM dba_users\nWHERE username='AVDFCOLLECT';"
+          }
+        ],
+        "route": "targets",
+        "tab": "trails",
+        "note": ""
+      },
+      {
+        "number": 5,
+        "title": "Test Target Account Login",
+        "body": "\nOS Terminal:\n\n**[OS TERMINAL]**\n\n```bash\nsqlplus -L 'avdfcollect/Oracle#AVDF26@//192.168.56.26:1521/PDB1'\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus -L 'avdfcollect/Oracle#AVDF26@//192.168.56.26:1521/PDB1'"
+          }
+        ],
+        "route": "targets",
+        "tab": "trails",
+        "note": ""
+      },
+      {
+        "number": 6,
+        "title": "Register Secured Target",
+        "body": "\nUse AVCLI Simulator:\n\n**[AVCLI]**\n\n```text\nREGISTER SECURED TARGET PDB1_26AI\nOF SECURED TARGET TYPE \"Oracle Database\"\nAT jdbc:oracle:thin:@//192.168.56.26:1521/PDB1\nAUTHENTICATED BY AVDFCOLLECT;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "REGISTER SECURED TARGET PDB1_26AI\nOF SECURED TARGET TYPE \"Oracle Database\"\nAT jdbc:oracle:thin:@//192.168.56.26:1521/PDB1\nAUTHENTICATED BY AVDFCOLLECT;"
+          }
+        ],
+        "route": "targets",
+        "tab": "trails",
+        "note": ""
+      },
+      {
+        "number": 7,
+        "title": "Verify Target",
+        "body": "\n**[AVCLI]**\n\n```text\nLIST SECURED TARGET;\n```\n\nWeb Console:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nTargets\n    ↓\nPDB1_26AI\n```\n\nVerify:\n\n```text\nHost       : 192.168.56.26\nPort       : 1521\nService    : PDB1\nCredential : AVDFCOLLECT\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "LIST SECURED TARGET;"
+          }
+        ],
+        "route": "targets",
+        "tab": "trails",
+        "note": ""
+      },
+      {
+        "number": 8,
+        "title": "Add TABLE Trail",
+        "body": "\nNavigate:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nTargets\n    ↓\nPDB1_26AI\n    ↓\nAudit Data Collection\n```\n\nClick:\n\n**[WEB CONSOLE]**\n\n```text\nAdd TABLE Trail\n```\n\nv0.8 creates:\n\n**[WEB CONSOLE]**\n\n```text\nTrail Type : TABLE\nLocation   : UNIFIED_AUDIT_TRAIL\nHost       : agentless collection\nStatus     : CONFIGURED / not yet started\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "add_table_trail",
+            "payload": {}
+          }
+        ],
+        "route": "targets",
+        "tab": "trails",
+        "note": ""
+      },
+      {
+        "number": 9,
+        "title": "Start Collection",
+        "body": "\nAVCLI:\n\n**[AVCLI]**\n\n```text\nSTART COLLECTION FOR SECURED TARGET PDB1_26AI\nUSING HOST 'agentless collection'\nFROM TABLE UNIFIED_AUDIT_TRAIL;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "START COLLECTION FOR SECURED TARGET PDB1_26AI\nUSING HOST 'agentless collection'\nFROM TABLE UNIFIED_AUDIT_TRAIL;"
+          }
+        ],
+        "route": "targets",
+        "tab": "trails",
+        "note": ""
+      },
+      {
+        "number": 10,
+        "title": "Verify Trail",
+        "body": "\n**[AVCLI]**\n\n```text\nLIST TRAIL FOR SECURED TARGET PDB1_26AI;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "LIST TRAIL FOR SECURED TARGET PDB1_26AI;"
+          }
+        ],
+        "route": "targets",
+        "tab": "trails",
+        "note": ""
+      },
+      {
+        "number": 11,
+        "title": "Generate New Native Activity",
+        "body": "\nUse AVDF_DEMO:\n\n**[OS TERMINAL]**\n\n```bash\nsqlplus -L 'avdf_demo/Oracle#26Lab1@//192.168.56.26:1521/PDB1'\n```\n\nRun:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT COUNT(*)\nFROM hr.employees;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus -L 'avdf_demo/Oracle#26Lab1@//192.168.56.26:1521/PDB1'"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT COUNT(*)\nFROM hr.employees;"
+          }
+        ],
+        "route": "targets",
+        "tab": "trails",
+        "note": ""
+      },
+      {
+        "number": 12,
+        "title": "Verify Local Evidence First",
+        "body": "\nSYS:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT event_timestamp,\n       dbusername,\n       action_name,\n       object_schema,\n       object_name,\n       return_code\nFROM unified_audit_trail\nWHERE dbusername='AVDF_DEMO'\nORDER BY event_timestamp DESC\nFETCH FIRST 10 ROWS ONLY;\n```\n\nTroubleshooting principle:\n\n```text\nIf the record does not exist in Oracle,\nAVDF cannot collect it.\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus / as sysdba"
+          },
+          {
+            "channel": "sql",
+            "command": "ALTER SESSION SET CONTAINER=PDB1;"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT event_timestamp,\n       dbusername,\n       action_name,\n       object_schema,\n       object_name,\n       return_code\nFROM unified_audit_trail\nWHERE dbusername='AVDF_DEMO'\nORDER BY event_timestamp DESC\nFETCH FIRST 10 ROWS ONLY;"
+          }
+        ],
+        "route": "targets",
+        "tab": "trails",
+        "note": "Kembali ke SYS sebelum membaca evidence atau mengubah konfigurasi."
+      },
+      {
+        "number": 13,
+        "title": "Verify Central AVDF Evidence",
+        "body": "\nLogin Auditor.\n\nNavigate:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nReports\n    ↓\nActivity Reports\n    ↓\nAll Activity\n```\n\nFilter:\n\n```text\nTarget = PDB1_26AI\nUser   = AVDF_DEMO\nObject = EMPLOYEES\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "targets",
+        "tab": "trails",
+        "note": ""
+      },
+      {
+        "number": 14,
+        "title": "Troubleshooting Drill",
+        "body": "\nInstructor:\n\n```text\nBreak Audit Trail\n```\n\nThen inspect:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nTargets\n    ↓\nAudit Trails\n```\n\nExpected unhealthy state.\n\nClear:\n\nRestart collection if required.\n\n---\n",
+        "tasks": [
+          {
+            "action": "inject_failure",
+            "payload": {
+              "kind": "trail"
+            }
+          },
+          {
+            "action": "clear_failures",
+            "payload": {}
+          },
+          {
+            "action": "start_collection",
+            "payload": {}
+          }
+        ],
+        "route": "targets",
+        "tab": "trails",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "scenario03",
+    "number": 3,
+    "title": "CENTRAL AUDIT POLICY MANAGEMENT, RETENTION, DAN FAILED LOGIN ALERT",
+    "source": "training/avdf_handson/03_central_audit_policy_management_retention_dan_failed_login_alert.md",
+    "goal": "Kelola policy terpusat, retention, dan deteksi login gagal.",
+    "expected": "Dua policy aktif, retention 3/0 bulan, alert LAB_FAILED_LOGIN muncul setelah tiga kegagalan.",
+    "tip": "1017 adalah kegagalan yang disengaja. Hubungkan kembali sebagai SYS sebelum membaca dictionary.",
+    "steps": [
+      {
+        "number": 1,
+        "title": "Create Day 2 Users",
+        "body": "\nSQL*Plus:\n\n**[SQL*PLUS]**\n\n```sql\nALTER SESSION SET CONTAINER=PDB1;\n\nCREATE USER avdf_d2_app\nIDENTIFIED BY \"Oracle#D2App26\";\n\nCREATE USER avdf_d2_reader\nIDENTIFIED BY \"Oracle#D2Read26\";\n\nGRANT CREATE SESSION, CREATE TABLE\nTO avdf_d2_app;\n\nGRANT CREATE SESSION\nTO avdf_d2_reader;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "ALTER SESSION SET CONTAINER=PDB1;\n\nCREATE USER avdf_d2_app\nIDENTIFIED BY \"Oracle#D2App26\";\n\nCREATE USER avdf_d2_reader\nIDENTIFIED BY \"Oracle#D2Read26\";\n\nGRANT CREATE SESSION, CREATE TABLE\nTO avdf_d2_app;\n\nGRANT CREATE SESSION\nTO avdf_d2_reader;"
+          },
+          {
+            "channel": "sql",
+            "command": "GRANT CREATE PROCEDURE TO avdf_d2_app;\nALTER USER avdf_d2_app QUOTA UNLIMITED ON USERS;"
+          }
+        ],
+        "route": "policies",
+        "tab": "audit",
+        "note": "Tambahan untuk menjalankan dataset: quota USERS dan CREATE PROCEDURE."
+      },
+      {
+        "number": 2,
+        "title": "Create Sensitive Dataset",
+        "body": "\nConnect as application owner:\n\n**[OS TERMINAL]**\n\n```bash\nsqlplus -L 'avdf_d2_app/Oracle#D2App26@//192.168.56.26:1521/PDB1'\n```\n\nCreate:\n\n**[SQL*PLUS]**\n\n```sql\nCREATE TABLE customer_secure\n(\n    customer_id    NUMBER PRIMARY KEY,\n    customer_name  VARCHAR2(100),\n    city           VARCHAR2(50),\n    credit_limit   NUMBER,\n    account_status VARCHAR2(20)\n);\n```\n\nInsert:\n\n**[SQL*PLUS]**\n\n```sql\nINSERT INTO customer_secure VALUES\n(1,'Budi Santoso','Jakarta',50000000,'ACTIVE');\n\nINSERT INTO customer_secure VALUES\n(2,'Siti Aminah','Bandung',35000000,'ACTIVE');\n\nINSERT INTO customer_secure VALUES\n(3,'Andi Wijaya','Surabaya',75000000,'ACTIVE');\n\nINSERT INTO customer_secure VALUES\n(4,'Rina Putri','Depok',25000000,'ACTIVE');\n\nINSERT INTO customer_secure VALUES\n(5,'Dewi Lestari','Bogor',60000000,'SUSPENDED');\n\nCOMMIT;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus -L 'avdf_d2_app/Oracle#D2App26@//192.168.56.26:1521/PDB1'"
+          },
+          {
+            "channel": "sql",
+            "command": "CREATE TABLE customer_secure\n(\n    customer_id    NUMBER PRIMARY KEY,\n    customer_name  VARCHAR2(100),\n    city           VARCHAR2(50),\n    credit_limit   NUMBER,\n    account_status VARCHAR2(20)\n);"
+          },
+          {
+            "channel": "sql",
+            "command": "INSERT INTO customer_secure VALUES\n(1,'Budi Santoso','Jakarta',50000000,'ACTIVE');\n\nINSERT INTO customer_secure VALUES\n(2,'Siti Aminah','Bandung',35000000,'ACTIVE');\n\nINSERT INTO customer_secure VALUES\n(3,'Andi Wijaya','Surabaya',75000000,'ACTIVE');\n\nINSERT INTO customer_secure VALUES\n(4,'Rina Putri','Depok',25000000,'ACTIVE');\n\nINSERT INTO customer_secure VALUES\n(5,'Dewi Lestari','Bogor',60000000,'SUSPENDED');\n\nCOMMIT;"
+          }
+        ],
+        "route": "policies",
+        "tab": "audit",
+        "note": ""
+      },
+      {
+        "number": 3,
+        "title": "Grant Reader Access",
+        "body": "\nSYS:\n\n**[SQL*PLUS]**\n\n```sql\nGRANT SELECT, UPDATE\nON avdf_d2_app.customer_secure\nTO avdf_d2_reader;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus / as sysdba"
+          },
+          {
+            "channel": "sql",
+            "command": "ALTER SESSION SET CONTAINER=PDB1;"
+          },
+          {
+            "channel": "sql",
+            "command": "GRANT SELECT, UPDATE\nON avdf_d2_app.customer_secure\nTO avdf_d2_reader;"
+          }
+        ],
+        "route": "policies",
+        "tab": "audit",
+        "note": "Kembali ke SYS sebelum membaca evidence atau mengubah konfigurasi."
+      },
+      {
+        "number": 4,
+        "title": "Create Day 2 Audit Policies",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nCREATE AUDIT POLICY avdf_d2_sensitive_access\n  ACTIONS SELECT, UPDATE\n  ON avdf_d2_app.customer_secure;\n```\n\nCreate schema policy:\n\n**[SQL*PLUS]**\n\n```sql\nCREATE AUDIT POLICY avdf_d2_schema_changes\n  ACTIONS CREATE TABLE, ALTER TABLE, DROP TABLE;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "CREATE AUDIT POLICY avdf_d2_sensitive_access\n  ACTIONS SELECT, UPDATE\n  ON avdf_d2_app.customer_secure;"
+          },
+          {
+            "channel": "sql",
+            "command": "CREATE AUDIT POLICY avdf_d2_schema_changes\n  ACTIONS CREATE TABLE, ALTER TABLE, DROP TABLE;"
+          }
+        ],
+        "route": "policies",
+        "tab": "audit",
+        "note": ""
+      },
+      {
+        "number": 5,
+        "title": "Retrieve Audit Policies",
+        "body": "\nAVCLI:\n\n**[AVCLI]**\n\n```text\nRETRIEVE AUDIT POLICIES FROM TARGET PDB1_26AI;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "RETRIEVE AUDIT POLICIES FROM TARGET PDB1_26AI;"
+          }
+        ],
+        "route": "policies",
+        "tab": "audit",
+        "note": ""
+      },
+      {
+        "number": 6,
+        "title": "Verify Retrieval Job",
+        "body": "\nWeb:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nSettings\n    ↓\nJobs\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "policies",
+        "tab": "audit",
+        "note": ""
+      },
+      {
+        "number": 7,
+        "title": "Inspect Audit Policies",
+        "body": "\nLogin Auditor:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nPolicies\n    ↓\nAudit Policies\n```\n\nVerify custom policies are visible:\n\n```text\nAVDF_D2_SENSITIVE_ACCESS\nAVDF_D2_SCHEMA_CHANGES\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "policies",
+        "tab": "audit",
+        "note": ""
+      },
+      {
+        "number": 8,
+        "title": "Provision Policies",
+        "body": "\nEnable Day 2 policies through console or provisioning control.\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "enable_d2_policies",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "audit",
+        "note": ""
+      },
+      {
+        "number": 9,
+        "title": "Create Retention Policy",
+        "body": "\nAdministrator:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nData Retention\n    ↓\nCreate\n```\n\nCreate:\n\n```text\nName          : LAB_3M_ONLINE\nOnline Months : 3\nArchive       : 0\n```\n\nApply to:\n\n```text\nPDB1_26AI\n```\n\nAVCLI verification:\n\n**[AVCLI]**\n\n```text\nSHOW RETENTION POLICY\nFOR TARGET PDB1_26AI;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "create_retention",
+            "payload": {}
+          },
+          {
+            "action": "apply_retention",
+            "payload": {}
+          },
+          {
+            "channel": "avcli",
+            "command": "SHOW RETENTION POLICY\nFOR TARGET PDB1_26AI;"
+          }
+        ],
+        "route": "policies",
+        "tab": "audit",
+        "note": ""
+      },
+      {
+        "number": 10,
+        "title": "Create Failed Login Alert",
+        "body": "\nAuditor:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nPolicies\n    ↓\nAlert Policies\n    ↓\nCreate\n```\n\nConfigure:\n\n```text\nName        : LAB_FAILED_LOGIN\nType        : Oracle Database\nSeverity    : Critical\nThreshold   : 3\nDuration    : 5 minutes\nGroup By    : USER_NAME\nTarget      : PDB1_26AI\n\nCondition:\nupper(:EVENT_STATUS)='FAILURE'\nAND upper(:EVENT)='LOGON'\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "create_failed_login_alert",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "audit",
+        "note": ""
+      },
+      {
+        "number": 11,
+        "title": "Trigger Three Failed Logins",
+        "body": "\nOS Terminal:\n\n**[OS TERMINAL]**\n\n```bash\nfor i in 1 2 3\ndo\n  echo \"Attempt $i\"\n  sqlplus -L -s 'avdf_d2_reader/WrongPassword@//192.168.56.26:1521/PDB1' <<'EOF'\nEXIT\nEOF\ndone\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "for i in 1 2 3\ndo\n  echo \"Attempt $i\"\n  sqlplus -L -s 'avdf_d2_reader/WrongPassword@//192.168.56.26:1521/PDB1' <<'EOF'\nEXIT\nEOF\ndone",
+            "expectedError": "ORA-01017"
+          }
+        ],
+        "route": "policies",
+        "tab": "audit",
+        "note": ""
+      },
+      {
+        "number": 12,
+        "title": "Investigate Alert",
+        "body": "\nNavigate:\n\n**[WEB CONSOLE]**\n\n```text\nAlerts\n```\n\nClick:\n\n**[WEB CONSOLE]**\n\n```text\nInvestigate\n```\n\nInspect:\n\n**[WEB CONSOLE]**\n\n```text\nEvent Time\nUser\nEvent\nStatus\nReturn Code\nClient Host\nClient IP\nClient Program\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "policies",
+        "tab": "audit",
+        "note": ""
+      },
+      {
+        "number": 13,
+        "title": "Alert Workflow",
+        "body": "\nChange:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nNew\n  ↓\nOpen\n  ↓\nAcknowledged\n  ↓\nClosed\n```\n\nUse buttons:\n\n```text\nOpen\nAcknowledge\nClose\n```\n\n---\n",
+        "tasks": [
+          {
+            "action": "open_latest_alert",
+            "payload": {}
+          },
+          {
+            "action": "ack_latest_alert",
+            "payload": {}
+          },
+          {
+            "action": "close_latest_alert",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "audit",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "scenario04",
+    "number": 4,
+    "title": "AUDIT VAULT AGENT, HOST MONITOR, DATABASE FIREWALL",
+    "source": "training/avdf_handson/04_audit_vault_agent_host_monitor_database_firewall.md",
+    "goal": "Bangun jalur agent → Host Monitor → DBFW.",
+    "expected": "Agent dan Host Monitor RUNNING, monitor Running, NETWORK trail tersedia.",
+    "tip": "Monitor baru berstatus Stopped; perlu START secara eksplisit.",
+    "steps": [
+      {
+        "number": 1,
+        "title": "Register Database Host",
+        "body": "\nAdministrator:\n\n**[WEB CONSOLE]**\n\n```text\nAgents\n```\n\nRegister:\n\n**[WEB CONSOLE]**\n\n```text\nHost Name  : db26ai\nIP Address : 192.168.56.26\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "register_host",
+            "payload": {}
+          }
+        ],
+        "route": "firewalls",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 2,
+        "title": "Download Agent",
+        "body": "\nUse:\n\n```text\nDownload Agent\n```\n\nOS path concept:\n\n```text\n/home/oracle/agent.jar\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "download_agent",
+            "payload": {}
+          }
+        ],
+        "route": "firewalls",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 3,
+        "title": "Install Agent",
+        "body": "\nUse Install.\n\nGet activation key.\n\nActivate.\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "install_agent",
+            "payload": {}
+          },
+          {
+            "action": "get_activation_key",
+            "payload": {}
+          },
+          {
+            "action": "activate_agent",
+            "payload": {}
+          }
+        ],
+        "route": "firewalls",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 4,
+        "title": "Verify Agent from OS",
+        "body": "\n**[OS TERMINAL]**\n\n```bash\ncd /home/oracle/avdf_agent/bin\n./agentctl status\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "cd /home/oracle/avdf_agent/bin\n./agentctl status"
+          }
+        ],
+        "route": "firewalls",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 5,
+        "title": "Download Host Monitor",
+        "body": "\nAdministrator Agent page:\n\n```text\nDownload Host Monitor\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "download_hostmon",
+            "payload": {}
+          }
+        ],
+        "route": "firewalls",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 6,
+        "title": "Install Host Monitor",
+        "body": "\nUse Install Host Monitor.\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "install_hostmon",
+            "payload": {}
+          }
+        ],
+        "route": "firewalls",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 7,
+        "title": "Register DBFW1",
+        "body": "\nNavigate:\n\n**[WEB CONSOLE]**\n\n```text\nDatabase Firewalls\n```\n\nRegister:\n\n**[WEB CONSOLE]**\n\n```text\nName        : DBFW1\nIP          : 192.168.56.27\nNIC         : eth0\nFingerprint : training SHA-256 fingerprint\n```\n\nAVCLI:\n\n**[AVCLI]**\n\n```text\nLIST FIREWALL;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "register_firewall",
+            "payload": {}
+          },
+          {
+            "channel": "avcli",
+            "command": "LIST FIREWALL;"
+          }
+        ],
+        "route": "firewalls",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 8,
+        "title": "Create Monitoring Point",
+        "body": "\nAVCLI:\n\n**[AVCLI]**\n\n```text\nCREATE DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI\nUSING FIREWALL DBFW1;\n```\n\nImportant v0.8 behavior:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nnew monitoring point\n    ↓\nStopped\n```\n\nIt is not automatically Running.\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "CREATE DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI\nUSING FIREWALL DBFW1;"
+          }
+        ],
+        "route": "firewalls",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 9,
+        "title": "Verify Monitoring Point",
+        "body": "\n**[AVCLI]**\n\n```text\nLIST DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "LIST DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI;"
+          }
+        ],
+        "route": "firewalls",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 10,
+        "title": "Start Monitoring Point",
+        "body": "\n**[AVCLI]**\n\n```text\nSTART DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI;\n```\n\nVerify:\n\n```text\nStatus : Running\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "START DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI;"
+          }
+        ],
+        "route": "firewalls",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 11,
+        "title": "Add NETWORK Trail",
+        "body": "\nWeb:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nTargets\n    ↓\nAudit Trails\n    ↓\nAdd NETWORK Trail\n```\n\n---\n",
+        "tasks": [
+          {
+            "action": "add_network_trail",
+            "payload": {}
+          }
+        ],
+        "route": "firewalls",
+        "tab": "",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "scenario05",
+    "number": 5,
+    "title": "DATABASE RESPONSE MONITORING, NETWORK EVIDENCE, DAN TROUBLESHOOTING",
+    "source": "training/avdf_handson/05_database_response_monitoring_network_evidence_dan_troubleshooting.md",
+    "goal": "Bedakan bukti database dengan bukti jaringan saat jalur rusak.",
+    "expected": "Response monitoring aktif, error SQL terekam, jalur kembali sehat setelah perbaikan.",
+    "tip": "Saat monitor berhenti, SQL tetap berjalan tetapi event firewall tidak bertambah.",
+    "steps": [
+      {
+        "number": 1,
+        "title": "Verify Full Channel Health",
+        "body": "\nCheck:\n\n```text\nAudit Vault Agent : RUNNING\nHost Monitor      : RUNNING\nDBFW1             : RUNNING\nMonitoring Point  : Running\nNETWORK Trail     : configured\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 2,
+        "title": "Enable Database Response Monitoring",
+        "body": "\nAVCLI:\n\n**[AVCLI]**\n\n```text\nALTER DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI\nUSING FIREWALL DBFW1\nSET DATABASE_RESPONSE=TRUE FULL_ERROR_MESSAGE=TRUE;\n```\n\nVerify:\n\n**[AVCLI]**\n\n```text\nLIST DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "ALTER DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI\nUSING FIREWALL DBFW1\nSET DATABASE_RESPONSE=TRUE FULL_ERROR_MESSAGE=TRUE;"
+          },
+          {
+            "channel": "avcli",
+            "command": "LIST DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI;"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 3,
+        "title": "Generate Successful SQL",
+        "body": "\nConnect:\n\n**[OS TERMINAL]**\n\n```bash\nsqlplus -L 'hr/oracle@//192.168.56.26:1521/PDB1'\n```\n\nRun:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT COUNT(*)\nFROM employees;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus -L 'hr/oracle@//192.168.56.26:1521/PDB1'"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT COUNT(*)\nFROM employees;"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 4,
+        "title": "Generate Failed SQL",
+        "body": "\nRun:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT *\nFROM table_does_not_exist;\n```\n\nRun another failure:\n\n**[SQL*PLUS]**\n\n```sql\nDROP TABLE avdf_d2_app.customer_secure;\n```\n\nIf user lacks privilege, expected:\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT *\nFROM table_does_not_exist;",
+            "expectedError": "ORA-00942"
+          },
+          {
+            "channel": "sql",
+            "command": "DROP TABLE avdf_d2_app.customer_secure;",
+            "expectedError": "ORA-01031"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 5,
+        "title": "Inspect Firewall Evidence",
+        "body": "\nNavigate:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nReports\n    ↓\nDatabase Firewall Reports\n    ↓\nMonitored Activity\n```\n\nInspect event fields:\n\n```text\nUser\nClient IP\nClient Host\nClient Program\nCommand Class\nObject\nSQL Text\nMonitoring Point\nNetwork Connection\nError Code\nError Message\nAction Taken\nThreat Severity\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 6,
+        "title": "Compare Native vs Network Evidence",
+        "body": "\nFor same SQL activity:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nUnified Audit\n    ↓\nnative database evidence\n\nDatabase Firewall\n    ↓\nnetwork SQL evidence\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 7,
+        "title": "Stop Monitoring Point",
+        "body": "\nAVCLI:\n\n**[AVCLI]**\n\n```text\nSTOP DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI;\n```\n\nGenerate:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT COUNT(*)\nFROM hr.employees;\n```\n\nDatabase query still succeeds.\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "STOP DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI;"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT COUNT(*)\nFROM hr.employees;"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 8,
+        "title": "Start Monitoring Again",
+        "body": "\n**[AVCLI]**\n\n```text\nSTART DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI;\n```\n\nRepeat SELECT.\n\nExpected network event reappears.\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "START DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI;"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT COUNT(*) FROM hr.employees;"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 9,
+        "title": "Inject Wrong Monitoring Address",
+        "body": "\nInstructor:\n\nAVCLI:\n\n**[AVCLI]**\n\n```text\nLIST DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI;\n```\n\nObserve incorrect address.\n\nFix:\n\n**[AVCLI]**\n\n```text\nALTER DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI\nUSING FIREWALL DBFW1\nSET ADD_ADDRESS=192.168.56.26:1521:PDB1;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "inject_failure",
+            "payload": {
+              "kind": "monitor_address"
+            }
+          },
+          {
+            "channel": "avcli",
+            "command": "LIST DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI;"
+          },
+          {
+            "channel": "avcli",
+            "command": "ALTER DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI\nUSING FIREWALL DBFW1\nSET ADD_ADDRESS=192.168.56.26:1521:PDB1;"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 10,
+        "title": "Inject DBFW Network Failure",
+        "body": "\nInstructor:\n\n```text\nBreak DBFW Network\n```\n\nCheck OS:\n\n**[OS TERMINAL]**\n\n```bash\nping -c 4 192.168.56.27\n```\n\nThen:\n\n**[OS TERMINAL]**\n\n```bash\nnc -vz 192.168.56.27 2051\n```\n\nDiagnose failure.\n\nClear:\n\n```text\nClear Failures\n```\n\n---\n",
+        "tasks": [
+          {
+            "action": "inject_failure",
+            "payload": {
+              "kind": "firewall_network"
+            }
+          },
+          {
+            "channel": "os",
+            "command": "ping -c 4 192.168.56.27"
+          },
+          {
+            "channel": "os",
+            "command": "nc -vz 192.168.56.27 2051"
+          },
+          {
+            "action": "clear_failures",
+            "payload": {}
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "scenario06",
+    "number": 6,
+    "title": "SQL BASELINE DAN FULL FIREWALL POLICY LIFECYCLE",
+    "source": "training/avdf_handson/06_sql_baseline_dan_full_firewall_policy_lifecycle.md",
+    "goal": "Pelajari SQL normal lalu buat, publish, dan deploy policy.",
+    "expected": "Tiga cluster baseline tersedia dan LAB_D4_DETECTIVE terpasang pada monitor.",
+    "tip": "Jika cluster kosong, periksa monitor, NETWORK trail, agent, dan Host Monitor.",
+    "steps": [
+      {
+        "number": 1,
+        "title": "Deploy Temporary `Log all`",
+        "body": "\nAuditor:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nPolicies\n    ↓\nDatabase Firewall Policies\n```\n\nClick:\n\n**[WEB CONSOLE]**\n\n```text\nDeploy Log all\n```\n\nPurpose:\n\n```text\ncollect representative SQL for learning/baseline\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "deploy_log_all",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 2,
+        "title": "Generate Normal Workload",
+        "body": "\nUse Instructor shortcut:\n\n```text\nNormal SQL Workload\n```\n\natau secara manual:\n\n**[OS TERMINAL]**\n\n```bash\nsqlplus -L 'avdf_d2_reader/Oracle#D2Read26@//192.168.56.26:1521/PDB1'\n```\n\nRun:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT COUNT(*)\nFROM avdf_d2_app.customer_secure;\n```\n\nRun:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT customer_name,\n       credit_limit\nFROM avdf_d2_app.customer_secure\nWHERE customer_id=1;\n```\n\nRun same pattern with different literal:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT customer_name,\n       credit_limit\nFROM avdf_d2_app.customer_secure\nWHERE customer_id=5;\n```\n\nRun:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT customer_id,\n       customer_name\nFROM avdf_d2_app.customer_secure\nWHERE account_status='ACTIVE';\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus -L 'avdf_d2_reader/Oracle#D2Read26@//192.168.56.26:1521/PDB1'"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT COUNT(*)\nFROM avdf_d2_app.customer_secure;"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT customer_name,\n       credit_limit\nFROM avdf_d2_app.customer_secure\nWHERE customer_id=1;"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT customer_name,\n       credit_limit\nFROM avdf_d2_app.customer_secure\nWHERE customer_id=5;"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT customer_id,\n       customer_name\nFROM avdf_d2_app.customer_secure\nWHERE account_status='ACTIVE';"
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 3,
+        "title": "Inspect SQL Clusters",
+        "body": "\nNavigate:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nPolicies\n    ↓\nDatabase Firewall Policies\n    ↓\nSQL Cluster Sets\n```\n\nExpected cluster catalog contains representative categories such as:\n\nObserve:\n\nKey concept:\n\n```text\ndifferent literals can map to the same SQL pattern/cluster\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 4,
+        "title": "Create Policy Shell",
+        "body": "\nClick:\n\n**[WEB CONSOLE]**\n\n```text\nCreate\n```\n\nSet:\n\n**[WEB CONSOLE]**\n\n```text\nTarget Type : Oracle Database\nPolicy Name : LAB_D4_DETECTIVE\nDescription : Detective monitoring policy for training\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "create_d4_policy_shell",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 5,
+        "title": "Create Database User Set",
+        "body": "\nIn policy:\n\n```text\nSets / Profiles\n```\n\nCreate:\n\n```text\nD4_APP_READERS\n```\n\nMember:\n\n```text\nAVDF_D2_READER\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "create_d4_user_set",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 6,
+        "title": "Create Database Object Set",
+        "body": "\nCreate:\n\n```text\nD4_SENSITIVE_OBJECTS\n```\n\nMember:\n\n```text\nCUSTOMER_SECURE\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "create_d4_object_set",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 7,
+        "title": "Create Client Program Set",
+        "body": "\nCreate:\n\n```text\nD4_SQLPLUS_CLIENT\n```\n\nMember:\n\n```text\nsqlplus\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "create_d4_client_set",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 8,
+        "title": "Create Profile",
+        "body": "\nCreate:\n\n```text\nD4_READER_PROFILE\n```\n\nAssociate:\n\n```text\nDB User Set = D4_APP_READERS\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "create_d4_profile",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 9,
+        "title": "Create SQL Cluster Set",
+        "body": "\nOpen:\n\n**[WEB CONSOLE]**\n\n```text\nSQL Cluster Sets\n```\n\nName:\n\n**[WEB CONSOLE]**\n\n```text\nD4_NORMAL_SQL\n```\n\nDescription:\n\n```text\nKnown normal SQL for AVDF_D2_READER\n```\n\nChoose baseline clusters:\n\n```text\nCOUNT_CUSTOMER\nCUSTOMER_BY_ID\nACTIVE_CUSTOMERS\n```\n\nSave.\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "create_d4_cluster_set",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 10,
+        "title": "Create SQL Statement Rule",
+        "body": "\nAdd Rule:\n\n```text\nRule Name  : KNOWN_APPLICATION_SQL\nRule Type  : SQL Statement\nProfile    : D4_READER_PROFILE\nCluster Set: D4_NORMAL_SQL\nAction     : Pass\nLogging    : Unique\nSeverity   : Minimal\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "add_d4_sql_rule",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 11,
+        "title": "Create Sensitive Database Object Rule",
+        "body": "\nAdd:\n\n```text\nRule Name  : MONITOR_SENSITIVE_CUSTOMER_DATA\nType       : Database Object\nProfile    : D4_READER_PROFILE\nObject Set : D4_SENSITIVE_OBJECTS\nCommands   : SELECT, UPDATE\nRow Count  : Capture\nAction     : Alert\nLogging    : Always\nSeverity   : Major\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "add_d4_object_rule",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 12,
+        "title": "Configure Default Rule",
+        "body": "\nUse:\n\n```text\nDefault Rule\n```\n\nConfigure:\n\n```text\nAction   : Alert\nLogging  : Always\nSeverity : Moderate\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "configure_d4_default",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 13,
+        "title": "Configure Unknown Traffic",
+        "body": "\n```text\nAction   : Alert\nLogging  : Always\nSeverity : Major\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "configure_d4_unknown",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 14,
+        "title": "Configure Login / Logout",
+        "body": "\n---\n\n",
+        "tasks": [
+          {
+            "action": "configure_d4_login",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 15,
+        "title": "Optional Session Context Rule",
+        "body": "\nCreate:\n\n```text\nMONITOR_READER_SESSION\n```\n\nUsing:\n\n```text\nD4_APP_READERS\nD4_READER_PROFILE\nAction   : Alert\nLogging  : Unique\nSeverity : Moderate\n```\n\nImportant:\n\n```text\na broad Session Context rule can match before other rules,\ndepending on evaluation order\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "add_d4_session_rule",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 16,
+        "title": "Configure Evaluation Order",
+        "body": "\nOpen:\n\n**[WEB CONSOLE]**\n\n```text\nEvaluation Order\n```\n\nRecommended training order:\n\n**[WEB CONSOLE]**\n\n```text\n1. SQL Statement\n2. Database Object\n3. Session Context\n4. Default\n```\n\nSave.\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "set_d4_evaluation_order",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 17,
+        "title": "Publish Policy",
+        "body": "\nClick:\n\n**[WEB CONSOLE]**\n\n```text\nSave / Publish\n```\n\nJob:\n\n```text\nDatabase Firewall Policy Publication\nCompleted\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "publish_d4_policy",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      },
+      {
+        "number": 18,
+        "title": "Deploy Policy",
+        "body": "\nClick:\n\n**[WEB CONSOLE]**\n\n```text\nDeploy to PDB1_26AI\n```\n\nVerify Monitoring Point:\n\n```text\nPolicy : LAB_D4_DETECTIVE\n```\n\n---\n",
+        "tasks": [
+          {
+            "action": "deploy_d4_policy",
+            "payload": {}
+          }
+        ],
+        "route": "policies",
+        "tab": "firewall",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "scenario07",
+    "number": 7,
+    "title": "SENSITIVE DATA, ROW COUNT, EXFILTRATION SIGNAL, DAN ALERT",
+    "source": "training/avdf_handson/07_sensitive_data_row_count_exfiltration_signal_dan_alert.md",
+    "goal": "Bandingkan SQL normal, pembacaan sensitif, dan row-count alert.",
+    "expected": "Query ID 1/5 cocok baseline; full read mengembalikan 5 baris dan memicu alert >3.",
+    "tip": "COUNT(*) mengembalikan satu baris hasil, walaupun nilainya 5. Frekuensi bukan row count.",
+    "steps": [
+      {
+        "number": 1,
+        "title": "Known SQL",
+        "body": "\nConnect:\n\n**[OS TERMINAL]**\n\n```bash\nsqlplus -L 'avdf_d2_reader/Oracle#D2Read26@//192.168.56.26:1521/PDB1'\n```\n\nRun:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT customer_name,\n       credit_limit\nFROM avdf_d2_app.customer_secure\nWHERE customer_id=1;\n```\n\nFirewall expected:\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus -L 'avdf_d2_reader/Oracle#D2Read26@//192.168.56.26:1521/PDB1'"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT customer_name,\n       credit_limit\nFROM avdf_d2_app.customer_secure\nWHERE customer_id=1;"
+          }
+        ],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 2,
+        "title": "Same Pattern, Different Literal",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT customer_name,\n       credit_limit\nFROM avdf_d2_app.customer_secure\nWHERE customer_id=5;\n```\n\nShould remain same baseline cluster pattern.\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT customer_name,\n       credit_limit\nFROM avdf_d2_app.customer_secure\nWHERE customer_id=5;"
+          }
+        ],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 3,
+        "title": "Sensitive Full-Table Read",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT *\nFROM avdf_d2_app.customer_secure;\n```\n\nFirewall event should show:\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT *\nFROM avdf_d2_app.customer_secure;"
+          }
+        ],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 4,
+        "title": "Sensitive UPDATE",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nUPDATE avdf_d2_app.customer_secure\nSET account_status='REVIEW'\nWHERE customer_id=1;\n\nROLLBACK;\n```\n\nNetwork evidence remains even though transaction is rolled back.\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "UPDATE avdf_d2_app.customer_secure\nSET account_status='REVIEW'\nWHERE customer_id=1;\n\nROLLBACK;"
+          }
+        ],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 5,
+        "title": "Generate Default Rule Activity",
+        "body": "\nRun:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT SYSDATE\nFROM dual;\n```\n\nIf not in baseline and no earlier specific rule matches:\n\n```text\nDEFAULT_RULE\nAction   : Alert\nSeverity : Moderate\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT SYSDATE\nFROM dual;"
+          }
+        ],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 6,
+        "title": "Create Row Count Alert",
+        "body": "\nPolicies:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nAlert Policies\n    ↓\nCreate\n```\n\nName:\n\n```text\nLAB_D4_LARGE_RESULT\n```\n\nConfigure:\n\n```text\nSeverity : Critical\nTarget   : PDB1_26AI\nUser     : AVDF_D2_READER\nObject   : CUSTOMER_SECURE\n\nCondition:\nupper(:USER)='AVDF_D2_READER'\nAND :ROW_COUNT > 3\n```\n\nImportant v0.8 threshold:\n\n```text\nROW_COUNT > 3\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "create_large_result_alert",
+            "payload": {}
+          }
+        ],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 7,
+        "title": "Trigger Large Result",
+        "body": "\nRun again:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT *\nFROM avdf_d2_app.customer_secure;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT *\nFROM avdf_d2_app.customer_secure;"
+          }
+        ],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 8,
+        "title": "Verify Large Result Alert",
+        "body": "\nNavigate:\n\n**[WEB CONSOLE]**\n\n```text\nAlerts\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 9,
+        "title": "Repeated Query Frequency Test",
+        "body": "\nRun multiple small queries:\n\n**[OS TERMINAL]**\n\n```bash\nfor i in 1 2 3 4 5 6 7 8 9 10\ndo\nsqlplus -L -s 'avdf_d2_reader/Oracle#D2Read26@//192.168.56.26:1521/PDB1' <<'EOF'\nSELECT COUNT(*)\nFROM avdf_d2_app.customer_secure;\nEXIT\nEOF\ndone\n```\n\nUse Reports to observe repeated traffic frequency.\n\n---\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "for i in 1 2 3 4 5 6 7 8 9 10\ndo\nsqlplus -L -s 'avdf_d2_reader/Oracle#D2Read26@//192.168.56.26:1521/PDB1' <<'EOF'\nSELECT COUNT(*)\nFROM avdf_d2_app.customer_secure;\nEXIT\nEOF\ndone"
+          }
+        ],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "scenario08",
+    "number": 8,
+    "title": "REPORTING, SAVED REPORTS, SCHEDULING, TARGET GROUP, COMPLIANCE",
+    "source": "training/avdf_handson/08_reporting_saved_reports_scheduling_target_group_compliance.md",
+    "goal": "Susun laporan investigasi dan kelompokkan target.",
+    "expected": "Saved Report, metadata jadwal, Target Group, dan keanggotaan PCI-DSS tersedia.",
+    "tip": "Jadwal PDF di edisi browser hanya metadata; tidak ada PDF otomatis.",
+    "steps": [
+      {
+        "number": 1,
+        "title": "All Activity",
+        "body": "\nAuditor:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nReports\n    ↓\nActivity Reports\n    ↓\nAll Activity\n```\n\nUse columns:\n\n```text\nEvent Time\nTarget\nUser\nEvent\nObject Owner\nObject\nStatus\nSource\nSQL\nPolicy\nRule\nRow Count\nClient IP\nClient Program\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "saved",
+        "note": ""
+      },
+      {
+        "number": 2,
+        "title": "Filter Application Reader",
+        "body": "\nFilter:\n\n```text\nTarget = PDB1_26AI\nUser   = AVDF_D2_READER\n```\n\nSort:\n\n```text\nEvent Time ASC\n```\n\nObserve chronological behavior.\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "saved",
+        "note": ""
+      },
+      {
+        "number": 3,
+        "title": "Failed Login Report",
+        "body": "\nOpen:\n\nFilter:\n\n**[WEB CONSOLE]**\n\n```text\nAVDF_D2_READER\n```\n\nExpected failed authentication evidence.\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "saved",
+        "note": ""
+      },
+      {
+        "number": 4,
+        "title": "Login/Logout Report",
+        "body": "\nOpen:\n\nCompare failed and successful authentication.\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "saved",
+        "note": ""
+      },
+      {
+        "number": 5,
+        "title": "Database Firewall Monitored Activity",
+        "body": "\nOpen:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nDatabase Firewall Reports\n    ↓\nMonitored Activity\n```\n\nFilter:\n\n```text\nPolicy = LAB_D4_DETECTIVE\n```\n\nInspect:\n\n```text\nSQL\nRule\nSeverity\nRow Count\nDatabase Response\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "saved",
+        "note": ""
+      },
+      {
+        "number": 6,
+        "title": "Create Focused Investigation Report",
+        "body": "\nFrom All Activity filter:\n\n```text\nTarget = PDB1_26AI\nUser   = AVDF_D2_READER\n```\n\nAdd columns needed for investigation.\n\nSort:\n\n```text\nEvent Time ASC\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "saved",
+        "note": ""
+      },
+      {
+        "number": 7,
+        "title": "Save Customized Report",
+        "body": "\nNavigate / action:\n\n**[WEB CONSOLE]**\n\n```text\nSave Report\n```\n\nName:\n\n**[WEB CONSOLE]**\n\n```text\nD5_READER_INVESTIGATION\n```\n\nExpected saved report visible under:\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "save_report",
+            "payload": {}
+          }
+        ],
+        "route": "reports",
+        "tab": "saved",
+        "note": ""
+      },
+      {
+        "number": 8,
+        "title": "Schedule Report",
+        "body": "\nOpen saved report and create schedule:\n\n```text\nD5_DAILY_INVESTIGATION\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "schedule_report",
+            "payload": {}
+          }
+        ],
+        "route": "reports",
+        "tab": "saved",
+        "note": ""
+      },
+      {
+        "number": 9,
+        "title": "Create Target Group",
+        "body": "\nAVCLI:\n\n**[AVCLI]**\n\n```text\nCREATE TARGET GROUP D5_TRAINING_GROUP;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "CREATE TARGET GROUP D5_TRAINING_GROUP;"
+          }
+        ],
+        "route": "reports",
+        "tab": "saved",
+        "note": ""
+      },
+      {
+        "number": 10,
+        "title": "Add Target to Group",
+        "body": "\n**[AVCLI]**\n\n```text\nALTER TARGET GROUP D5_TRAINING_GROUP\nADD TARGET PDB1_26AI;\n```\n\nVerify:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nTargets\n    ↓\nTarget Groups\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "ALTER TARGET GROUP D5_TRAINING_GROUP\nADD TARGET PDB1_26AI;"
+          }
+        ],
+        "route": "reports",
+        "tab": "saved",
+        "note": ""
+      },
+      {
+        "number": 11,
+        "title": "Add Compliance Group",
+        "body": "\nUse console Compliance workflow.\n\nAssign:\n\n```text\nPDB1_26AI\n```\n\nto training compliance group.\n\nThen open:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nReports\n    ↓\nCompliance Reports\n```\n\n---\n",
+        "tasks": [
+          {
+            "action": "add_compliance_target",
+            "payload": {}
+          }
+        ],
+        "route": "reports",
+        "tab": "saved",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "scenario09",
+    "number": 9,
+    "title": "ENTITLEMENT BASELINE, PRIVILEGE ESCALATION, DAN DRIFT",
+    "source": "training/avdf_handson/09_entitlement_baseline_privilege_escalation_dan_drift.md",
+    "goal": "Buktikan perubahan hak akses menggunakan dua snapshot.",
+    "expected": "Snapshot baseline dan after menunjukkan role baru serta SELECT HR.EMPLOYEES.",
+    "tip": "Ambil baseline sebelum GRANT; snapshot adalah salinan, bukan tampilan hak akses terkini.",
+    "steps": [
+      {
+        "number": 1,
+        "title": "Enable Entitlement Setup Privileges",
+        "body": "\nSQL*Plus:\n\n**[SQL*PLUS]**\n\n```sql\nALTER SESSION SET CONTAINER=PDB1;\n\n@/home/oracle/avdf_setup/oracle_user_setup.sql AVDFCOLLECT ENTITLEMENT\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "ALTER SESSION SET CONTAINER=PDB1;\n\n@/home/oracle/avdf_setup/oracle_user_setup.sql AVDFCOLLECT ENTITLEMENT"
+          }
+        ],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": ""
+      },
+      {
+        "number": 2,
+        "title": "Review Baseline Role Grants",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT grantee,\n       granted_role,\n       admin_option\nFROM dba_role_privs\nWHERE grantee='AVDF_D2_READER';\n```\n\nRecord result.\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT grantee,\n       granted_role,\n       admin_option\nFROM dba_role_privs\nWHERE grantee='AVDF_D2_READER';"
+          }
+        ],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": ""
+      },
+      {
+        "number": 3,
+        "title": "Review Baseline System Privileges",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT grantee,\n       privilege\nFROM dba_sys_privs\nWHERE grantee='AVDF_D2_READER';\n```\n\nRecord result.\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT grantee,\n       privilege\nFROM dba_sys_privs\nWHERE grantee='AVDF_D2_READER';"
+          }
+        ],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": ""
+      },
+      {
+        "number": 4,
+        "title": "Review Baseline Object Privileges",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT grantee,\n       owner,\n       table_name,\n       privilege\nFROM dba_tab_privs\nWHERE grantee='AVDF_D2_READER'\nORDER BY owner, table_name, privilege;\n```\n\nExpected baseline includes:\n\nNo:\n\n```text\nHR.EMPLOYEES SELECT\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT grantee,\n       owner,\n       table_name,\n       privilege\nFROM dba_tab_privs\nWHERE grantee='AVDF_D2_READER'\nORDER BY owner, table_name, privilege;"
+          }
+        ],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": ""
+      },
+      {
+        "number": 5,
+        "title": "Retrieve Baseline Entitlements",
+        "body": "\nAVCLI:\n\n**[AVCLI]**\n\n```text\nRETRIEVE USER ENTITLEMENT FROM TARGET PDB1_26AI;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "RETRIEVE USER ENTITLEMENT FROM TARGET PDB1_26AI;"
+          }
+        ],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": ""
+      },
+      {
+        "number": 6,
+        "title": "Verify Job",
+        "body": "\n**[REFERENCE / CONCEPT]**\n\n```text\nSettings\n    ↓\nJobs\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": ""
+      },
+      {
+        "number": 7,
+        "title": "Label Baseline",
+        "body": "\nNavigate:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nTargets\n    ↓\nUser Entitlement Snapshots\n```\n\nClick:\n\n**[WEB CONSOLE]**\n\n```text\nLabel Baseline\n```\n\nDescription:\n\n```text\nApproved entitlement baseline before Day 5 privilege changes\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "label_latest_entitlement",
+            "payload": {
+              "label": "D5_BASELINE"
+            }
+          }
+        ],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": ""
+      },
+      {
+        "number": 8,
+        "title": "Audit GRANT/REVOKE Changes",
+        "body": "\nCreate policy:\n\n**[SQL*PLUS]**\n\n```sql\nCREATE AUDIT POLICY avdf_d5_hr_grants\n  ACTIONS GRANT ON hr.employees;\n```\n\nEnable:\n\n**[SQL*PLUS]**\n\n```sql\nAUDIT POLICY avdf_d5_hr_grants;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "CREATE AUDIT POLICY avdf_d5_hr_grants\n  ACTIONS GRANT, REVOKE ON hr.employees;"
+          },
+          {
+            "channel": "sql",
+            "command": "AUDIT POLICY avdf_d5_hr_grants;"
+          }
+        ],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": "Policy mencatat GRANT dan REVOKE agar remediasi juga terbukti."
+      },
+      {
+        "number": 9,
+        "title": "Create Power Role",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nCREATE ROLE avdf_d5_power_role;\n```\n\nGrant system privilege:\n\n**[SQL*PLUS]**\n\n```sql\nGRANT CREATE TABLE\nTO avdf_d5_power_role;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "CREATE ROLE avdf_d5_power_role;"
+          },
+          {
+            "channel": "sql",
+            "command": "GRANT CREATE TABLE\nTO avdf_d5_power_role;"
+          }
+        ],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": ""
+      },
+      {
+        "number": 10,
+        "title": "Grant Role to Reader",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nGRANT avdf_d5_power_role\nTO avdf_d2_reader;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "GRANT avdf_d5_power_role\nTO avdf_d2_reader;"
+          }
+        ],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": ""
+      },
+      {
+        "number": 11,
+        "title": "Grant Direct HR Access",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nGRANT SELECT\nON hr.employees\nTO avdf_d2_reader;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "GRANT SELECT\nON hr.employees\nTO avdf_d2_reader;"
+          }
+        ],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": ""
+      },
+      {
+        "number": 12,
+        "title": "Verify New Entitlements",
+        "body": "\nRole:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT grantee,\n       granted_role\nFROM dba_role_privs\nWHERE grantee='AVDF_D2_READER';\n```\n\nRole privilege:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT role,\n       privilege\nFROM role_sys_privs\nWHERE role='AVDF_D5_POWER_ROLE';\n```\n\nObject privilege:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT grantee,\n       owner,\n       table_name,\n       privilege\nFROM dba_tab_privs\nWHERE grantee='AVDF_D2_READER'\nAND owner='HR'\nAND table_name='EMPLOYEES';\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT grantee,\n       granted_role\nFROM dba_role_privs\nWHERE grantee='AVDF_D2_READER';"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT role,\n       privilege\nFROM role_sys_privs\nWHERE role='AVDF_D5_POWER_ROLE';"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT grantee,\n       owner,\n       table_name,\n       privilege\nFROM dba_tab_privs\nWHERE grantee='AVDF_D2_READER'\nAND owner='HR'\nAND table_name='EMPLOYEES';"
+          }
+        ],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": ""
+      },
+      {
+        "number": 13,
+        "title": "Prove Access Has Changed",
+        "body": "\nConnect:\n\n**[OS TERMINAL]**\n\n```bash\nsqlplus -L 'avdf_d2_reader/Oracle#D2Read26@//192.168.56.26:1521/PDB1'\n```\n\nRun:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT COUNT(*)\nFROM hr.employees;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus -L 'avdf_d2_reader/Oracle#D2Read26@//192.168.56.26:1521/PDB1'"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT COUNT(*)\nFROM hr.employees;"
+          }
+        ],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": ""
+      },
+      {
+        "number": 14,
+        "title": "Retrieve After-Escalation Snapshot",
+        "body": "\nAVCLI:\n\n**[AVCLI]**\n\n```text\nRETRIEVE USER ENTITLEMENT FROM TARGET PDB1_26AI;\n```\n\nWait for Completed job.\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus / as sysdba"
+          },
+          {
+            "channel": "sql",
+            "command": "ALTER SESSION SET CONTAINER=PDB1;"
+          },
+          {
+            "channel": "avcli",
+            "command": "RETRIEVE USER ENTITLEMENT FROM TARGET PDB1_26AI;"
+          }
+        ],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": "Kembali ke SYS sebelum membaca evidence atau mengubah konfigurasi."
+      },
+      {
+        "number": 15,
+        "title": "Label New Snapshot",
+        "body": "\nTargets:\n\n```text\nUser Entitlement Snapshots\n```\n\nClick:\n\n**[WEB CONSOLE]**\n\n```text\nLabel After Escalation\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "label_latest_entitlement",
+            "payload": {
+              "label": "D5_AFTER_ESCALATION"
+            }
+          }
+        ],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": ""
+      },
+      {
+        "number": 16,
+        "title": "Compare Snapshots",
+        "body": "\nReports:\n\n**[WEB CONSOLE]**\n\n```text\nEntitlement Reports\n```\n\nCompare:\n\n```text\nD5_BASELINE\nvs\nD5_AFTER_ESCALATION\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": ""
+      },
+      {
+        "number": 17,
+        "title": "Interpret",
+        "body": "\nAnswer:\n\n---\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "entitlement",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "scenario10",
+    "number": 10,
+    "title": "STORED PROCEDURE AUDITING",
+    "source": "training/avdf_handson/10_stored_procedure_auditing.md",
+    "goal": "Lacak perubahan source stored procedure.",
+    "expected": "SPA menampilkan Created lalu Modified untuk SHOW_CUSTOMER_COUNT.",
+    "tip": "CREATE PROCEDURE diperlukan oleh pemilik aplikasi; retrieval harus diaktifkan.",
+    "steps": [
+      {
+        "number": 1,
+        "title": "Grant SPA Setup Privileges",
+        "body": "\nSYS:\n\n**[SQL*PLUS]**\n\n```sql\nALTER SESSION SET CONTAINER=PDB1;\n\n@/home/oracle/avdf_setup/oracle_user_setup.sql AVDFCOLLECT SPA\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "ALTER SESSION SET CONTAINER=PDB1;\n\n@/home/oracle/avdf_setup/oracle_user_setup.sql AVDFCOLLECT SPA"
+          },
+          {
+            "channel": "sql",
+            "command": "GRANT CREATE PROCEDURE TO avdf_d2_app;"
+          }
+        ],
+        "route": "reports",
+        "tab": "stored",
+        "note": ""
+      },
+      {
+        "number": 2,
+        "title": "Create Procedure",
+        "body": "\nConnect as application owner:\n\n**[OS TERMINAL]**\n\n```bash\nsqlplus -L 'avdf_d2_app/Oracle#D2App26@//192.168.56.26:1521/PDB1'\n```\n\nCreate example:\n\n**[SQL*PLUS]**\n\n```sql\nCREATE OR REPLACE PROCEDURE show_customer_count\nAS\n  l_count NUMBER;\nBEGIN\n  SELECT COUNT(*)\n  INTO   l_count\n  FROM   customer_secure;\n\n  DBMS_OUTPUT.PUT_LINE('CUSTOMERS=' || l_count);\nEND;\n/\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus -L 'avdf_d2_app/Oracle#D2App26@//192.168.56.26:1521/PDB1'"
+          },
+          {
+            "channel": "sql",
+            "command": "CREATE OR REPLACE PROCEDURE show_customer_count\nAS\n  l_count NUMBER;\nBEGIN\n  SELECT COUNT(*)\n  INTO   l_count\n  FROM   customer_secure;\n\n  DBMS_OUTPUT.PUT_LINE('CUSTOMERS=' || l_count);\nEND;\n/"
+          }
+        ],
+        "route": "reports",
+        "tab": "stored",
+        "note": ""
+      },
+      {
+        "number": 3,
+        "title": "Execute Procedure",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSET SERVEROUTPUT ON\n\nBEGIN\n  show_customer_count;\nEND;\n/\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SET SERVEROUTPUT ON\n\nBEGIN\n  show_customer_count;\nEND;\n/"
+          }
+        ],
+        "route": "reports",
+        "tab": "stored",
+        "note": ""
+      },
+      {
+        "number": 4,
+        "title": "Verify Procedure Exists",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT object_name,\n       object_type,\n       status\nFROM user_objects\nWHERE object_name='SHOW_CUSTOMER_COUNT';\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT object_name,\n       object_type,\n       status\nFROM user_objects\nWHERE object_name='SHOW_CUSTOMER_COUNT';"
+          }
+        ],
+        "route": "reports",
+        "tab": "stored",
+        "note": ""
+      },
+      {
+        "number": 5,
+        "title": "Enable Stored Procedure Retrieval",
+        "body": "\nReports:\n\n**[WEB CONSOLE]**\n\n```text\nStored Procedure Changes\n```\n\nClick:\n\n**[WEB CONSOLE]**\n\n```text\nEnable Retrieval\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "schedule_spa",
+            "payload": {}
+          }
+        ],
+        "route": "reports",
+        "tab": "stored",
+        "note": ""
+      },
+      {
+        "number": 6,
+        "title": "Retrieve First State",
+        "body": "\nClick:\n\n**[WEB CONSOLE]**\n\n```text\nRetrieve Now\n```\n\nStored Procedure report should show initial state / creation.\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "retrieve_spa",
+            "payload": {}
+          }
+        ],
+        "route": "reports",
+        "tab": "stored",
+        "note": ""
+      },
+      {
+        "number": 7,
+        "title": "Modify Procedure",
+        "body": "\nReconnect application owner.\n\nRun:\n\n**[SQL*PLUS]**\n\n```sql\nCREATE OR REPLACE PROCEDURE show_customer_count\nAS\n  l_count NUMBER;\nBEGIN\n  SELECT COUNT(*)\n  INTO   l_count\n  FROM   customer_secure;\n\n  DBMS_OUTPUT.PUT_LINE('CURRENT CUSTOMER COUNT=' || l_count);\nEND;\n/\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus -L 'avdf_d2_app/Oracle#D2App26@//192.168.56.26:1521/PDB1'"
+          },
+          {
+            "channel": "sql",
+            "command": "CREATE OR REPLACE PROCEDURE show_customer_count\nAS\n  l_count NUMBER;\nBEGIN\n  SELECT COUNT(*)\n  INTO   l_count\n  FROM   customer_secure;\n\n  DBMS_OUTPUT.PUT_LINE('CURRENT CUSTOMER COUNT=' || l_count);\nEND;\n/"
+          }
+        ],
+        "route": "reports",
+        "tab": "stored",
+        "note": ""
+      },
+      {
+        "number": 8,
+        "title": "Retrieve Again",
+        "body": "\nReports:\n\n**[WEB CONSOLE]**\n\n```text\nStored Procedure Changes\n    ↓\nRetrieve Now\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "retrieve_spa",
+            "payload": {}
+          }
+        ],
+        "route": "reports",
+        "tab": "stored",
+        "note": ""
+      },
+      {
+        "number": 9,
+        "title": "Interpretation",
+        "body": "\nStored Procedure Auditing answers:\n\n---\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "stored",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "scenario11",
+    "number": 11,
+    "title": "ALERT TRIAGE DAN OPERATIONAL HEALTH CHECK",
+    "source": "training/avdf_handson/11_alert_triage_dan_operational_health_check.md",
+    "goal": "Latih triage alert dan periksa kesehatan operasional.",
+    "expected": "Satu alert melewati Open → Acknowledged → Closed; jalur audit/firewall sehat.",
+    "tip": "Closed berarti investigasi selesai; bukti tetap tersedia.",
+    "steps": [
+      {
+        "number": 1,
+        "title": "List Alert Policies",
+        "body": "\nAVCLI:\n\n**[AVCLI]**\n\n```text\nLIST ALERT POLICIES;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "LIST ALERT POLICIES;"
+          }
+        ],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 2,
+        "title": "Open Alerts Console",
+        "body": "\nNavigate:\n\n**[WEB CONSOLE]**\n\n```text\nAlerts\n```\n\nReview:\n\n**[WEB CONSOLE]**\n\n```text\nTime\nSeverity\nMessage\nTarget\nUser\nObject\nRow Count\nPolicy\nStatus\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 3,
+        "title": "Investigate One Alert",
+        "body": "\nClick:\n\n**[WEB CONSOLE]**\n\n```text\nInvestigate\n```\n\nInspect related evidence.\n\n---\n\n",
+        "tasks": [],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 4,
+        "title": "Perform Triage Workflow",
+        "body": "\nSet:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nNew\n ↓\nOpen\n ↓\nAcknowledged\n ↓\nClosed\n```\n\nExplain each state:\n\n```text\nNew\nnot yet reviewed\n\nOpen\nactive investigation\n\nAcknowledged\nanalyst has reviewed / accepted ownership\n\nClosed\ninvestigation completed\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "open_latest_alert",
+            "payload": {}
+          },
+          {
+            "action": "ack_latest_alert",
+            "payload": {}
+          },
+          {
+            "action": "close_latest_alert",
+            "payload": {}
+          }
+        ],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 5,
+        "title": "Verify Audit Trail Status",
+        "body": "\nAVCLI:\n\n**[AVCLI]**\n\n```text\nLIST TRAIL FOR SECURED TARGET PDB1_26AI;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "LIST TRAIL FOR SECURED TARGET PDB1_26AI;"
+          }
+        ],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 6,
+        "title": "Verify Firewall Monitor",
+        "body": "\n**[AVCLI]**\n\n```text\nLIST DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "LIST DATABASE FIREWALL MONITOR\nFOR TARGET PDB1_26AI;"
+          }
+        ],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 7,
+        "title": "Verify Firewall",
+        "body": "\n**[AVCLI]**\n\n```text\nSHOW STATUS FOR FIREWALL DBFW1;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "SHOW STATUS FOR FIREWALL DBFW1;"
+          }
+        ],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 8,
+        "title": "Verify Retention",
+        "body": "\n**[AVCLI]**\n\n```text\nSHOW RETENTION POLICY\nFOR TARGET PDB1_26AI;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "avcli",
+            "command": "SHOW RETENTION POLICY\nFOR TARGET PDB1_26AI;"
+          }
+        ],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      },
+      {
+        "number": 9,
+        "title": "Review Jobs",
+        "body": "\nNavigate:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nSettings\n    ↓\nJobs\n```\n\nReview jobs from entire workflow:\n\n```text\nAudit Policy Retrieval\nAudit Policy Provisioning\nDatabase Firewall Policy Publication\nDatabase Firewall Policy Deployment\nEntitlement Retrieval\nStored Procedure Retrieval\n```\n\n---\n",
+        "tasks": [],
+        "route": "alerts",
+        "tab": "",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "scenario12",
+    "number": 12,
+    "title": "FINAL FORENSIC CAPSTONE",
+    "source": "training/avdf_handson/12_final_forensic_capstone.md",
+    "goal": "Rekonstruksi insiden, jelaskan penyebab akses, lalu cabut privilege.",
+    "expected": "Timeline menghubungkan login, GRANT, SELECT, UPDATE, alert dan drift; akses HR dan role dicabut.",
+    "tip": "Lima baris adalah sinyal hasil besar untuk lab, bukan bukti tunggal pencurian data.",
+    "steps": [
+      {
+        "number": 1,
+        "title": "Use Scenario Generator",
+        "body": "\nInstructor:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nScenario Generator\n    ↓\nDay 5 Incident\n```\n\nThis creates a coherent sequence containing:\n\n```text\nprivilege change\nfailed login attempts\nsuccessful login\nHR.EMPLOYEES access\nCUSTOMER_SECURE full-table read\nlarge-result behavior\nUPDATE attempt\nentitlement drift\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "action": "generate_incident",
+            "payload": {}
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 2,
+        "title": "Native Failed Logins",
+        "body": "\nSQL*Plus:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT TO_CHAR(event_timestamp,\n               'YYYY-MM-DD HH24:MI:SS') event_time,\n       dbusername,\n       action_name,\n       return_code,\n       userhost,\n       client_program_name\nFROM unified_audit_trail\nWHERE dbusername='AVDF_D2_READER'\nAND action_name IN ('LOGON','LOGOFF')\nORDER BY event_timestamp;\n```\n\nFind:\n\n```text\nLOGON RETURN_CODE 1017\nLOGON RETURN_CODE 1017\nLOGON RETURN_CODE 1017\nLOGON RETURN_CODE 0\n```\n\nInterpret:\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus / as sysdba"
+          },
+          {
+            "channel": "sql",
+            "command": "ALTER SESSION SET CONTAINER=PDB1;"
+          },
+          {
+            "channel": "sql",
+            "command": "SELECT TO_CHAR(event_timestamp,\n               'YYYY-MM-DD HH24:MI:SS') event_time,\n       dbusername,\n       action_name,\n       return_code,\n       userhost,\n       client_program_name\nFROM unified_audit_trail\nWHERE dbusername='AVDF_D2_READER'\nAND action_name IN ('LOGON','LOGOFF')\nORDER BY event_timestamp;"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": "Kembali ke SYS sebelum membaca evidence atau mengubah konfigurasi."
+      },
+      {
+        "number": 3,
+        "title": "AVDF Failed Login Report",
+        "body": "\nReports:\n\n```text\nFailed Login Events\n```\n\nFilter:\n\n```text\nAVDF_D2_READER\n```\n\nCorrelate timestamps.\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 4,
+        "title": "Find Native HR Access",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT TO_CHAR(event_timestamp,\n               'YYYY-MM-DD HH24:MI:SS') event_time,\n       dbusername,\n       action_name,\n       object_schema,\n       object_name,\n       return_code,\n       DBMS_LOB.SUBSTR(sql_text,100,1) sql_text\nFROM unified_audit_trail\nWHERE dbusername='AVDF_D2_READER'\nAND object_schema='HR'\nAND object_name='EMPLOYEES'\nORDER BY event_timestamp;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT TO_CHAR(event_timestamp,\n               'YYYY-MM-DD HH24:MI:SS') event_time,\n       dbusername,\n       action_name,\n       object_schema,\n       object_name,\n       return_code,\n       DBMS_LOB.SUBSTR(sql_text,100,1) sql_text\nFROM unified_audit_trail\nWHERE dbusername='AVDF_D2_READER'\nAND object_schema='HR'\nAND object_name='EMPLOYEES'\nORDER BY event_timestamp;"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 5,
+        "title": "Find Firewall HR Access",
+        "body": "\nReports:\n\n**[REFERENCE / CONCEPT]**\n\n```text\nDatabase Firewall Reports\n    ↓\nMonitored Activity\n```\n\nFilter:\n\n```text\nUser   = AVDF_D2_READER\nObject = EMPLOYEES\n```\n\nCompare with native evidence.\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 6,
+        "title": "Find Full-Table Read",
+        "body": "\nAll Activity filter:\n\n```text\nUser   = AVDF_D2_READER\nObject = CUSTOMER_SECURE\nEvent  = SELECT\n```\n\nLook for:\n\n**[SQL*PLUS]**\n\n```text\nSELECT *\nFROM AVDF_D2_APP.CUSTOMER_SECURE\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 7,
+        "title": "Find Firewall Policy Match",
+        "body": "\nInspect event detail:\n\n```text\nPolicy Name     : LAB_D4_DETECTIVE\nPolicy Rule     : MONITOR_SENSITIVE_CUSTOMER_DATA\nAction Taken    : Alert\nThreat Severity : Major\nRow Count       : 5\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 8,
+        "title": "Find Large Result Alert",
+        "body": "\nAlerts filter:\n\n```text\nAlert Policy = LAB_D4_LARGE_RESULT\nTarget       = PDB1_26AI\nUser         = AVDF_D2_READER\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 9,
+        "title": "Find UPDATE",
+        "body": "\nNative:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT event_timestamp,\n       dbusername,\n       action_name,\n       object_schema,\n       object_name,\n       DBMS_LOB.SUBSTR(sql_text,100,1) sql_text\nFROM unified_audit_trail\nWHERE dbusername='AVDF_D2_READER'\nAND action_name='UPDATE'\nORDER BY event_timestamp;\n```\n\nFirewall:\n\n```text\nUser   = AVDF_D2_READER\nObject = CUSTOMER_SECURE\nCommand= UPDATE\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT event_timestamp,\n       dbusername,\n       action_name,\n       object_schema,\n       object_name,\n       DBMS_LOB.SUBSTR(sql_text,100,1) sql_text\nFROM unified_audit_trail\nWHERE dbusername='AVDF_D2_READER'\nAND action_name='UPDATE'\nORDER BY event_timestamp;"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 10,
+        "title": "Check Current Object Privilege",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT grantee,\n       owner,\n       table_name,\n       privilege\nFROM dba_tab_privs\nWHERE grantee='AVDF_D2_READER'\nAND owner='HR'\nAND table_name='EMPLOYEES';\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT grantee,\n       owner,\n       table_name,\n       privilege\nFROM dba_tab_privs\nWHERE grantee='AVDF_D2_READER'\nAND owner='HR'\nAND table_name='EMPLOYEES';"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 11,
+        "title": "Find Who Granted It",
+        "body": "\nQuery Unified Audit:\n\n**[SQL*PLUS]**\n\n```sql\nSELECT TO_CHAR(event_timestamp,\n               'YYYY-MM-DD HH24:MI:SS') event_time,\n       dbusername,\n       action_name,\n       object_schema,\n       object_name,\n       DBMS_LOB.SUBSTR(sql_text,150,1) sql_text\nFROM unified_audit_trail\nWHERE action_name='GRANT'\nORDER BY event_timestamp;\n```\n\nFind grant involving:\n\n```text\nHR.EMPLOYEES\nAVDF_D2_READER\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT TO_CHAR(event_timestamp,\n               'YYYY-MM-DD HH24:MI:SS') event_time,\n       dbusername,\n       action_name,\n       object_schema,\n       object_name,\n       DBMS_LOB.SUBSTR(sql_text,150,1) sql_text\nFROM unified_audit_trail\nWHERE action_name='GRANT'\nORDER BY event_timestamp;"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 12,
+        "title": "Confirm Entitlement Drift",
+        "body": "\nReports:\n\n**[WEB CONSOLE]**\n\n```text\nEntitlement Reports\n```\n\nCompare:\n\n```text\nD5_BASELINE\nvs\nD5_AFTER_ESCALATION\n```\n\n---\n\n",
+        "tasks": [],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 13,
+        "title": "Revoke HR Access",
+        "body": "\nSYS:\n\n**[SQL*PLUS]**\n\n```sql\nREVOKE SELECT\nON hr.employees\nFROM avdf_d2_reader;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "os",
+            "command": "sqlplus / as sysdba"
+          },
+          {
+            "channel": "sql",
+            "command": "ALTER SESSION SET CONTAINER=PDB1;"
+          },
+          {
+            "channel": "sql",
+            "command": "REVOKE SELECT\nON hr.employees\nFROM avdf_d2_reader;"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": "Kembali ke SYS sebelum membaca evidence atau mengubah konfigurasi."
+      },
+      {
+        "number": 14,
+        "title": "Revoke Power Role",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nREVOKE avdf_d5_power_role\nFROM avdf_d2_reader;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "REVOKE avdf_d5_power_role\nFROM avdf_d2_reader;"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 15,
+        "title": "Drop Role",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nDROP ROLE avdf_d5_power_role;\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "DROP ROLE avdf_d5_power_role;"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 16,
+        "title": "Verify HR Access Removed",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT grantee,\n       owner,\n       table_name,\n       privilege\nFROM dba_tab_privs\nWHERE grantee='AVDF_D2_READER'\nAND owner='HR'\nAND table_name='EMPLOYEES';\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT grantee,\n       owner,\n       table_name,\n       privilege\nFROM dba_tab_privs\nWHERE grantee='AVDF_D2_READER'\nAND owner='HR'\nAND table_name='EMPLOYEES';"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 17,
+        "title": "Verify Role Removed",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT grantee,\n       granted_role\nFROM dba_role_privs\nWHERE grantee='AVDF_D2_READER'\nAND granted_role='AVDF_D5_POWER_ROLE';\n```\n\n---\n\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT grantee,\n       granted_role\nFROM dba_role_privs\nWHERE grantee='AVDF_D2_READER'\nAND granted_role='AVDF_D5_POWER_ROLE';"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      },
+      {
+        "number": 18,
+        "title": "Verify REVOKE Evidence",
+        "body": "\n**[SQL*PLUS]**\n\n```sql\nSELECT TO_CHAR(event_timestamp,\n               'YYYY-MM-DD HH24:MI:SS') event_time,\n       dbusername,\n       action_name,\n       object_schema,\n       object_name,\n       DBMS_LOB.SUBSTR(sql_text,150,1) sql_text\nFROM unified_audit_trail\nWHERE action_name='REVOKE'\nORDER BY event_timestamp DESC;\n```\n\n---\n",
+        "tasks": [
+          {
+            "channel": "sql",
+            "command": "SELECT TO_CHAR(event_timestamp,\n               'YYYY-MM-DD HH24:MI:SS') event_time,\n       dbusername,\n       action_name,\n       object_schema,\n       object_name,\n       DBMS_LOB.SUBSTR(sql_text,150,1) sql_text\nFROM unified_audit_trail\nWHERE action_name='REVOKE'\nORDER BY event_timestamp DESC;"
+          }
+        ],
+        "route": "reports",
+        "tab": "activity",
+        "note": ""
+      }
+    ]
+  }
+]
