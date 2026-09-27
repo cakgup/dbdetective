@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Oracle AVDF Training Simulator</title>
+  <link rel="stylesheet" href="./app.css" />
+</head>
+<body>
+  <div id="loginScreen" class="login-screen hidden">
+    <div class="login-art" aria-hidden="true"></div>
+    <div class="login-card">
+      <div class="login-product-icon">
+        <div class="monitor-glyph"><span></span></div>
+      </div>
+      <div class="login-product-title">Oracle Audit Vault and Database Firewall</div>
+      <div class="login-subtitle">Training Simulator · AVDF 20 · v0.8</div>
+      <div class="login-line-field"><span class="login-field-icon">♙</span><input id="loginUser" value="auditor" placeholder="User name" autocomplete="username"></div>
+      <div class="login-line-field"><span class="login-field-icon">⌕</span><input id="loginPass" type="password" value="oracle" placeholder="Password" autocomplete="current-password"></div>
+      <button class="login-submit" onclick="App.login()">Sign In</button>
+      <div class="login-help"><b>Training accounts:</b> admin / oracle &nbsp; · &nbsp; auditor / oracle</div>
+      <div class="login-disclaimer">Training Simulator — Not an Oracle Product</div>
+    </div>
+  </div>
+
+  <header class="product-bar">
+    <div class="product-brand" onclick="App.go(App.state?.meta?.role==='auditor'?'dashboard':'home')">
+      <span class="oracle-oval" aria-hidden="true"></span>
+      <span>Oracle Audit Vault and Database Firewall 20</span>
+    </div>
+    <div class="product-user">
+      <select id="roleSelect" class="product-role" onchange="App.setRole(this.value)">
+        <option value="admin">avadmin</option>
+        <option value="auditor">avauditor</option>
+      </select>
+      <span class="product-help">? &nbsp; Help</span>
+      <button class="signout-btn" title="Sign out" onclick="App.logout()">Sign out</button>
+    </div>
+  </header>
+
+  <nav id="topNav" class="main-nav"></nav>
+
+  <main class="app-shell">
+    <aside id="leftNav" class="left-nav"></aside>
+    <section class="content-area">
+      <div id="crumbs" class="crumbs"></div>
+      <div id="page" class="page"></div>
+    </section>
+  </main>
+
+  <div class="training-dock">
+    <div class="training-tag">TRAINING</div>
+    <button onclick="App.go('labs')" title="Training Labs">Labs</button>
+    <button onclick="App.go('console')" title="Command Consoles">CLI</button>
+    <button onclick="App.go('trainer')" title="Instructor Tools">Tools</button>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <div id="modal" class="modal-backdrop hidden"><div class="modal"><div id="modalBody"></div></div></div>
+  <script src="./static-engine.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

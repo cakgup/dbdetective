@@ -1,0 +1,3180 @@
+{
+  "total": 394,
+  "per_day": {
+    "1": 54,
+    "2": 84,
+    "3": 74,
+    "4": 82,
+    "5": 100
+  },
+  "categories": {
+    "Concept / Guided Simulation": 40,
+    "SQL*Plus / Database": 190,
+    "OS Terminal": 28,
+    "AVDF Web Console": 66,
+    "AVCLI / Web Console": 70
+  },
+  "labs": [
+    {
+      "key": "d1-lab-1",
+      "day": 1,
+      "number": 1,
+      "title": "Understanding AVDF Components",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d1-lab-2",
+      "day": 1,
+      "number": 2,
+      "title": "Understanding the AVDF Audit Collection Flow",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d1-lab-3",
+      "day": 1,
+      "number": 3,
+      "title": "Login sebagai Oracle OS User",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d1-lab-4",
+      "day": 1,
+      "number": 4,
+      "title": "Check Listener",
+      "category": "OS Terminal",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d1-lab-5",
+      "day": 1,
+      "number": 5,
+      "title": "Test Network Database Connection",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d1-lab-6",
+      "day": 1,
+      "number": 6,
+      "title": "Verify Database Version",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d1-lab-7",
+      "day": 1,
+      "number": 7,
+      "title": "Verify CDB and PDB",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d1-lab-8",
+      "day": 1,
+      "number": 8,
+      "title": "Switch to PDB1",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d1-lab-9",
+      "day": 1,
+      "number": 9,
+      "title": "Verify Unified Auditing",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d1-lab-10",
+      "day": 1,
+      "number": 10,
+      "title": "Examine Predefined Audit Policies",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d1-lab-11",
+      "day": 1,
+      "number": 11,
+      "title": "Check Enabled Policies",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d1-lab-12",
+      "day": 1,
+      "number": 12,
+      "title": "Check Existing Unified Audit Records",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d1-lab-13",
+      "day": 1,
+      "number": 13,
+      "title": "Inspect Latest Audit Records",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d1-lab-14",
+      "day": 1,
+      "number": 14,
+      "title": "Create Training User",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d1-lab-15",
+      "day": 1,
+      "number": 15,
+      "title": "Verify User",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d1-lab-16",
+      "day": 1,
+      "number": 16,
+      "title": "Create Audit Policy for HR.EMPLOYEES",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d1-lab-17",
+      "day": 1,
+      "number": 17,
+      "title": "Verify the Policy Definition",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d1-lab-18",
+      "day": 1,
+      "number": 18,
+      "title": "Verify Policy Is Enabled",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d1-lab-19",
+      "day": 1,
+      "number": 19,
+      "title": "Generate Audited Activity",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 7
+    },
+    {
+      "key": "d1-lab-20",
+      "day": 1,
+      "number": 20,
+      "title": "Find the Audit Records",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d1-lab-21",
+      "day": 1,
+      "number": 21,
+      "title": "Display SQL Text",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d1-lab-22",
+      "day": 1,
+      "number": 22,
+      "title": "Create Dedicated Login Audit Policy",
+      "category": "AVDF Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d1-lab-23",
+      "day": 1,
+      "number": 23,
+      "title": "Generate Successful Login",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d1-lab-24",
+      "day": 1,
+      "number": 24,
+      "title": "Generate Failed Login",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d1-lab-25",
+      "day": 1,
+      "number": 25,
+      "title": "Investigate Authentication Events",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d1-lab-26",
+      "day": 1,
+      "number": 26,
+      "title": "View PDB-local Audit Records",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d1-lab-27",
+      "day": 1,
+      "number": 27,
+      "title": "View Audit Records from CDB Root",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d1-lab-28",
+      "day": 1,
+      "number": 28,
+      "title": "Decide Collection Architecture",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d1-lab-29",
+      "day": 1,
+      "number": 29,
+      "title": "Create AVDF Collection User",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d1-lab-30",
+      "day": 1,
+      "number": 30,
+      "title": "Verify AVDF Account",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d1-lab-31",
+      "day": 1,
+      "number": 31,
+      "title": "Run Target Setup Script",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d1-lab-32",
+      "day": 1,
+      "number": 32,
+      "title": "Inspect Granted Roles",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d1-lab-33",
+      "day": 1,
+      "number": 33,
+      "title": "Test AVDF Account Login",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d1-lab-34",
+      "day": 1,
+      "number": 34,
+      "title": "Get Database Host Name",
+      "category": "OS Terminal",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d1-lab-35",
+      "day": 1,
+      "number": 35,
+      "title": "Get Database Service",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d1-lab-36",
+      "day": 1,
+      "number": 36,
+      "title": "Build JDBC Connect String",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d1-lab-37",
+      "day": 1,
+      "number": 37,
+      "title": "Final Registration Worksheet",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d1-lab-38",
+      "day": 1,
+      "number": 38,
+      "title": "Register Target Using AVDF Console",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d1-lab-39",
+      "day": 1,
+      "number": 39,
+      "title": "Registration Using AVCLI",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d1-lab-40",
+      "day": 1,
+      "number": 40,
+      "title": "Verify Registered Targets",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d1-lab-41",
+      "day": 1,
+      "number": 41,
+      "title": "Configure Agentless Audit Trail",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d1-lab-42",
+      "day": 1,
+      "number": 42,
+      "title": "Start Collection Using AVCLI",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d1-lab-43",
+      "day": 1,
+      "number": 43,
+      "title": "Check Audit Trail Status",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d1-lab-44",
+      "day": 1,
+      "number": 44,
+      "title": "Record Current Time",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d1-lab-45",
+      "day": 1,
+      "number": 45,
+      "title": "Generate New Activity",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d1-lab-46",
+      "day": 1,
+      "number": 46,
+      "title": "Verify Locally First",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d1-lab-47",
+      "day": 1,
+      "number": 47,
+      "title": "Verify in Audit Vault",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d1-lab-48",
+      "day": 1,
+      "number": 48,
+      "title": "Scenario: AVDF Cannot Connect to PDB1",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d1-lab-49",
+      "day": 1,
+      "number": 49,
+      "title": "Check Listener Again",
+      "category": "OS Terminal",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d1-lab-50",
+      "day": 1,
+      "number": 50,
+      "title": "Check PDB State",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d1-lab-51",
+      "day": 1,
+      "number": 51,
+      "title": "Check Target User Status",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d1-lab-52",
+      "day": 1,
+      "number": 52,
+      "title": "Check Audit Source",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d1-lab-53",
+      "day": 1,
+      "number": 53,
+      "title": "Check Specific Test Event",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d1-lab-54",
+      "day": 1,
+      "number": 54,
+      "title": "Verify Audit Policy",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d2-lab-1",
+      "day": 2,
+      "number": 1,
+      "title": "Set Oracle Environment",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d2-lab-2",
+      "day": 2,
+      "number": 2,
+      "title": "Check Listener",
+      "category": "OS Terminal",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-3",
+      "day": 2,
+      "number": 3,
+      "title": "Check Database and PDB",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d2-lab-4",
+      "day": 2,
+      "number": 4,
+      "title": "Switch to PDB1",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-5",
+      "day": 2,
+      "number": 5,
+      "title": "Verify Day 1 Users",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-6",
+      "day": 2,
+      "number": 6,
+      "title": "Verify Day 1 Audit Policies",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-7",
+      "day": 2,
+      "number": 7,
+      "title": "Verify Unified Audit Trail Is Working",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-8",
+      "day": 2,
+      "number": 8,
+      "title": "Check Registered Target",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d2-lab-9",
+      "day": 2,
+      "number": 9,
+      "title": "Check Audit Trail",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d2-lab-10",
+      "day": 2,
+      "number": 10,
+      "title": "Start Collection If Necessary",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-11",
+      "day": 2,
+      "number": 11,
+      "title": "Generate Heartbeat Audit Event",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-12",
+      "day": 2,
+      "number": 12,
+      "title": "Verify Locally",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d2-lab-13",
+      "day": 2,
+      "number": 13,
+      "title": "List Existing Retention Policies",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-14",
+      "day": 2,
+      "number": 14,
+      "title": "Create Training Retention Policy",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-15",
+      "day": 2,
+      "number": 15,
+      "title": "Verify Policy",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-16",
+      "day": 2,
+      "number": 16,
+      "title": "Apply Policy to Target",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-17",
+      "day": 2,
+      "number": 17,
+      "title": "Verify Target Retention",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-18",
+      "day": 2,
+      "number": 18,
+      "title": "Create Application Owner",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d2-lab-19",
+      "day": 2,
+      "number": 19,
+      "title": "Create Application Reader",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d2-lab-20",
+      "day": 2,
+      "number": 20,
+      "title": "Create Sensitive Application Table",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 7
+    },
+    {
+      "key": "d2-lab-21",
+      "day": 2,
+      "number": 21,
+      "title": "Grant Application Access",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d2-lab-22",
+      "day": 2,
+      "number": 22,
+      "title": "Create Sensitive Data Policy",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d2-lab-23",
+      "day": 2,
+      "number": 23,
+      "title": "Create Schema Change Policy",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-24",
+      "day": 2,
+      "number": 24,
+      "title": "Verify Policies Exist But Are Disabled",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d2-lab-25",
+      "day": 2,
+      "number": 25,
+      "title": "Retrieve Policies",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-26",
+      "day": 2,
+      "number": 26,
+      "title": "Check Job in AVDF Console",
+      "category": "AVDF Web Console",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d2-lab-27",
+      "day": 2,
+      "number": 27,
+      "title": "List All Unified Audit Policies",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-28",
+      "day": 2,
+      "number": 28,
+      "title": "List Only Custom Policies",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-29",
+      "day": 2,
+      "number": 29,
+      "title": "List Oracle Predefined Policies",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d2-lab-30",
+      "day": 2,
+      "number": 30,
+      "title": "Enable Sensitive Access Policy from AVDF",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d2-lab-31",
+      "day": 2,
+      "number": 31,
+      "title": "Enable Schema Policy",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-32",
+      "day": 2,
+      "number": 32,
+      "title": "Verify Provisioning Jobs",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-33",
+      "day": 2,
+      "number": 33,
+      "title": "Verify Directly on Database",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d2-lab-34",
+      "day": 2,
+      "number": 34,
+      "title": "Normal SELECT Activity",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-35",
+      "day": 2,
+      "number": 35,
+      "title": "Generate UPDATE",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d2-lab-36",
+      "day": 2,
+      "number": 36,
+      "title": "Verify Sensitive Access Locally",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-37",
+      "day": 2,
+      "number": 37,
+      "title": "Verify Which Policy Generated It",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-38",
+      "day": 2,
+      "number": 38,
+      "title": "Connect as Application Owner",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d2-lab-39",
+      "day": 2,
+      "number": 39,
+      "title": "Verify Schema Change Audit Events",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-40",
+      "day": 2,
+      "number": 40,
+      "title": "Check Trail",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-41",
+      "day": 2,
+      "number": 41,
+      "title": "Generate a Known Timestamp",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-42",
+      "day": 2,
+      "number": 42,
+      "title": "Open All Activity Report",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-43",
+      "day": 2,
+      "number": 43,
+      "title": "Filter Sensitive Object Activity",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-44",
+      "day": 2,
+      "number": 44,
+      "title": "Inspect Individual Event",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-45",
+      "day": 2,
+      "number": 45,
+      "title": "Database Schema Report",
+      "category": "AVDF Web Console",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d2-lab-46",
+      "day": 2,
+      "number": 46,
+      "title": "Successful Login Baseline",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-47",
+      "day": 2,
+      "number": 47,
+      "title": "Generate Three Failed Logins",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-48",
+      "day": 2,
+      "number": 48,
+      "title": "Verify Failures Locally",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-49",
+      "day": 2,
+      "number": 49,
+      "title": "Create Alert Policy",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-50",
+      "day": 2,
+      "number": 50,
+      "title": "Define Condition",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-51",
+      "day": 2,
+      "number": 51,
+      "title": "Configure Threshold",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-52",
+      "day": 2,
+      "number": 52,
+      "title": "Restrict to Training Target",
+      "category": "AVDF Web Console",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d2-lab-53",
+      "day": 2,
+      "number": 53,
+      "title": "Verify Alert Policy",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-54",
+      "day": 2,
+      "number": 54,
+      "title": "Trigger Alert",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d2-lab-55",
+      "day": 2,
+      "number": 55,
+      "title": "Verify Alert",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-56",
+      "day": 2,
+      "number": 56,
+      "title": "Investigate Alert",
+      "category": "AVDF Web Console",
+      "detected_blocks": 7
+    },
+    {
+      "key": "d2-lab-57",
+      "day": 2,
+      "number": 57,
+      "title": "Local Investigation Query",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-58",
+      "day": 2,
+      "number": 58,
+      "title": "Count Activity by User",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-59",
+      "day": 2,
+      "number": 59,
+      "title": "Count Failed Authentication",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-60",
+      "day": 2,
+      "number": 60,
+      "title": "Disable Policy Centrally",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-61",
+      "day": 2,
+      "number": 61,
+      "title": "Verify Database State",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-62",
+      "day": 2,
+      "number": 62,
+      "title": "Re-enable Policy",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d2-lab-63",
+      "day": 2,
+      "number": 63,
+      "title": "Find Database Hostname",
+      "category": "OS Terminal",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-64",
+      "day": 2,
+      "number": 64,
+      "title": "Register Agent Host",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-65",
+      "day": 2,
+      "number": 65,
+      "title": "Verify Host",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-66",
+      "day": 2,
+      "number": 66,
+      "title": "Download Agent",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-67",
+      "day": 2,
+      "number": 67,
+      "title": "Create Agent Home",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d2-lab-68",
+      "day": 2,
+      "number": 68,
+      "title": "Install Agent",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d2-lab-69",
+      "day": 2,
+      "number": 69,
+      "title": "Check Agent Files",
+      "category": "OS Terminal",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-70",
+      "day": 2,
+      "number": 70,
+      "title": "Obtain Activation Key",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d2-lab-71",
+      "day": 2,
+      "number": 71,
+      "title": "Activate Agent",
+      "category": "OS Terminal",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d2-lab-72",
+      "day": 2,
+      "number": 72,
+      "title": "Check Agent Status",
+      "category": "OS Terminal",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-73",
+      "day": 2,
+      "number": 73,
+      "title": "Normal Agent Operations",
+      "category": "OS Terminal",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d2-lab-74",
+      "day": 2,
+      "number": 74,
+      "title": "Problem: Target Retrieval Fails",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d2-lab-75",
+      "day": 2,
+      "number": 75,
+      "title": "Check PDB Service",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-76",
+      "day": 2,
+      "number": 76,
+      "title": "Check AVDF User",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-77",
+      "day": 2,
+      "number": 77,
+      "title": "Check Audit Setup",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d2-lab-78",
+      "day": 2,
+      "number": 78,
+      "title": "Problem: AVDF Report Empty",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-79",
+      "day": 2,
+      "number": 79,
+      "title": "Check Audit Policy",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-80",
+      "day": 2,
+      "number": 80,
+      "title": "Check Trail",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d2-lab-81",
+      "day": 2,
+      "number": 81,
+      "title": "Find Authentication Timeline",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d2-lab-82",
+      "day": 2,
+      "number": 82,
+      "title": "Find Data Access After Login",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d2-lab-83",
+      "day": 2,
+      "number": 83,
+      "title": "Correlate Timeline",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d2-lab-84",
+      "day": 2,
+      "number": 84,
+      "title": "Investigate Centrally in AVDF",
+      "category": "AVDF Web Console",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d3-lab-1",
+      "day": 3,
+      "number": 1,
+      "title": "Audit Vault versus Database Firewall",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d3-lab-2",
+      "day": 3,
+      "number": 2,
+      "title": "Understand DAM and DPE",
+      "category": "AVDF Web Console",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d3-lab-3",
+      "day": 3,
+      "number": 3,
+      "title": "Modern AVDF Deployment Modes",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-4",
+      "day": 3,
+      "number": 4,
+      "title": "Host Monitor Data Flow",
+      "category": "OS Terminal",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d3-lab-5",
+      "day": 3,
+      "number": 5,
+      "title": "Why Host Monitor Is Ideal for This Lab",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d3-lab-6",
+      "day": 3,
+      "number": 6,
+      "title": "Login to Database Server",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d3-lab-7",
+      "day": 3,
+      "number": 7,
+      "title": "Identify Hostname",
+      "category": "OS Terminal",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d3-lab-8",
+      "day": 3,
+      "number": 8,
+      "title": "Identify NIC",
+      "category": "OS Terminal",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d3-lab-9",
+      "day": 3,
+      "number": 9,
+      "title": "Detailed NIC Information",
+      "category": "OS Terminal",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-10",
+      "day": 3,
+      "number": 10,
+      "title": "Check Routing",
+      "category": "OS Terminal",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-11",
+      "day": 3,
+      "number": 11,
+      "title": "Verify Listener",
+      "category": "OS Terminal",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d3-lab-12",
+      "day": 3,
+      "number": 12,
+      "title": "Verify Port 1521",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d3-lab-13",
+      "day": 3,
+      "number": 13,
+      "title": "Verify Database Service",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d3-lab-14",
+      "day": 3,
+      "number": 14,
+      "title": "Check Secured Target",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-15",
+      "day": 3,
+      "number": 15,
+      "title": "Check Audit Trail",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d3-lab-16",
+      "day": 3,
+      "number": 16,
+      "title": "Check Existing Database Firewalls",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d3-lab-17",
+      "day": 3,
+      "number": 17,
+      "title": "Obtain Database Firewall Certificate Fingerprint",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-18",
+      "day": 3,
+      "number": 18,
+      "title": "Register Database Firewall from Console",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-19",
+      "day": 3,
+      "number": 19,
+      "title": "Alternative Registration with AVCLI",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-20",
+      "day": 3,
+      "number": 20,
+      "title": "Verify Firewall",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-21",
+      "day": 3,
+      "number": 21,
+      "title": "Check Firewall Status",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-22",
+      "day": 3,
+      "number": 22,
+      "title": "Database Server to Database Firewall",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-23",
+      "day": 3,
+      "number": 23,
+      "title": "Test TCP Reachability",
+      "category": "OS Terminal",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d3-lab-24",
+      "day": 3,
+      "number": 24,
+      "title": "Check firewalld",
+      "category": "OS Terminal",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d3-lab-25",
+      "day": 3,
+      "number": 25,
+      "title": "Locate Audit Vault Agent",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d3-lab-26",
+      "day": 3,
+      "number": 26,
+      "title": "Check Agent Status",
+      "category": "OS Terminal",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d3-lab-27",
+      "day": 3,
+      "number": 27,
+      "title": "Create Host Monitor Installation Directory",
+      "category": "OS Terminal",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d3-lab-28",
+      "day": 3,
+      "number": 28,
+      "title": "Download Host Monitor Package",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d3-lab-29",
+      "day": 3,
+      "number": 29,
+      "title": "Verify Package",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-30",
+      "day": 3,
+      "number": 30,
+      "title": "Unzip Host Monitor",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d3-lab-31",
+      "day": 3,
+      "number": 31,
+      "title": "Check Permissions",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-32",
+      "day": 3,
+      "number": 32,
+      "title": "Install Host Monitor",
+      "category": "OS Terminal",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d3-lab-33",
+      "day": 3,
+      "number": 33,
+      "title": "Verify Installation Files",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d3-lab-34",
+      "day": 3,
+      "number": 34,
+      "title": "Verify Firewall NIC",
+      "category": "OS Terminal",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-35",
+      "day": 3,
+      "number": 35,
+      "title": "Create Monitoring Point from AVCLI",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d3-lab-36",
+      "day": 3,
+      "number": 36,
+      "title": "Verify Monitoring Point",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-37",
+      "day": 3,
+      "number": 37,
+      "title": "Verify by Firewall",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-38",
+      "day": 3,
+      "number": 38,
+      "title": "Start Monitoring Point",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d3-lab-39",
+      "day": 3,
+      "number": 39,
+      "title": "Add NETWORK Audit Trail",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-40",
+      "day": 3,
+      "number": 40,
+      "title": "Verify Network Trail",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d3-lab-41",
+      "day": 3,
+      "number": 41,
+      "title": "Baseline Login",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d3-lab-42",
+      "day": 3,
+      "number": 42,
+      "title": "Simple SELECT",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-43",
+      "day": 3,
+      "number": 43,
+      "title": "Read Application Data",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-44",
+      "day": 3,
+      "number": 44,
+      "title": "Aggregate Query",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d3-lab-45",
+      "day": 3,
+      "number": 45,
+      "title": "Different SQL Shapes",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d3-lab-46",
+      "day": 3,
+      "number": 46,
+      "title": "Enable Database Response Monitoring",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-47",
+      "day": 3,
+      "number": 47,
+      "title": "Generate Response Errors Again",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 7
+    },
+    {
+      "key": "d3-lab-48",
+      "day": 3,
+      "number": 48,
+      "title": "Find HR SQL Activity",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d3-lab-49",
+      "day": 3,
+      "number": 49,
+      "title": "Find DDL Activity",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-50",
+      "day": 3,
+      "number": 50,
+      "title": "Find Failed SQL",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d3-lab-51",
+      "day": 3,
+      "number": 51,
+      "title": "Query Native Audit Record",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d3-lab-52",
+      "day": 3,
+      "number": 52,
+      "title": "Compare with Database Firewall Report",
+      "category": "OS Terminal",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d3-lab-53",
+      "day": 3,
+      "number": 53,
+      "title": "Repeated Sensitive SELECT",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-54",
+      "day": 3,
+      "number": 54,
+      "title": "Multiple SQL Shapes",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d3-lab-55",
+      "day": 3,
+      "number": 55,
+      "title": "Stop Monitoring Point",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-56",
+      "day": 3,
+      "number": 56,
+      "title": "Verify",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d3-lab-57",
+      "day": 3,
+      "number": 57,
+      "title": "Generate SQL While Stopped",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-58",
+      "day": 3,
+      "number": 58,
+      "title": "Start Monitoring Again",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-59",
+      "day": 3,
+      "number": 59,
+      "title": "Generate SQL After Restart",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-60",
+      "day": 3,
+      "number": 60,
+      "title": "Check Audit Vault Agent",
+      "category": "OS Terminal",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-61",
+      "day": 3,
+      "number": 61,
+      "title": "Check Host Monitor from Console",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d3-lab-62",
+      "day": 3,
+      "number": 62,
+      "title": "Check NETWORK Trail",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d3-lab-63",
+      "day": 3,
+      "number": 63,
+      "title": "Verify Listener Address Again",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-64",
+      "day": 3,
+      "number": 64,
+      "title": "Verify NIC Address",
+      "category": "OS Terminal",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-65",
+      "day": 3,
+      "number": 65,
+      "title": "Check Active Database Connections",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d3-lab-66",
+      "day": 3,
+      "number": 66,
+      "title": "Generate Persistent Session",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d3-lab-67",
+      "day": 3,
+      "number": 67,
+      "title": "Database Listener Verification",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d3-lab-68",
+      "day": 3,
+      "number": 68,
+      "title": "Check Firewall",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d3-lab-69",
+      "day": 3,
+      "number": 69,
+      "title": "Check Monitoring Point",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d3-lab-70",
+      "day": 3,
+      "number": 70,
+      "title": "Check Agent",
+      "category": "OS Terminal",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d3-lab-71",
+      "day": 3,
+      "number": 71,
+      "title": "Check Target Connectivity",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d3-lab-72",
+      "day": 3,
+      "number": 72,
+      "title": "Add Correct Address",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d3-lab-73",
+      "day": 3,
+      "number": 73,
+      "title": "Build Timeline from Network Events",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d3-lab-74",
+      "day": 3,
+      "number": 74,
+      "title": "Compare with Unified Audit Trail",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d4-lab-1",
+      "day": 4,
+      "number": 1,
+      "title": "Set Oracle Environment",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d4-lab-2",
+      "day": 4,
+      "number": 2,
+      "title": "Verify Database",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d4-lab-3",
+      "day": 4,
+      "number": 3,
+      "title": "Verify Listener",
+      "category": "OS Terminal",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-4",
+      "day": 4,
+      "number": 4,
+      "title": "Verify Audit Vault Agent",
+      "category": "OS Terminal",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-5",
+      "day": 4,
+      "number": 5,
+      "title": "Verify Firewall",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d4-lab-6",
+      "day": 4,
+      "number": 6,
+      "title": "Verify Monitoring Point",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-7",
+      "day": 4,
+      "number": 7,
+      "title": "Verify Trails",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d4-lab-8",
+      "day": 4,
+      "number": 8,
+      "title": "Understand Session Context",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-9",
+      "day": 4,
+      "number": 9,
+      "title": "Understand SQL Statement Rules",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d4-lab-10",
+      "day": 4,
+      "number": 10,
+      "title": "Understand Database Object Rules",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d4-lab-11",
+      "day": 4,
+      "number": 11,
+      "title": "Inspect Current Policy",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d4-lab-12",
+      "day": 4,
+      "number": 12,
+      "title": "Inspect Predefined Policies",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d4-lab-13",
+      "day": 4,
+      "number": 13,
+      "title": "Deploy Log All",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d4-lab-14",
+      "day": 4,
+      "number": 14,
+      "title": "Verify Policy Deployment",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-15",
+      "day": 4,
+      "number": 15,
+      "title": "Record Baseline Time",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d4-lab-16",
+      "day": 4,
+      "number": 16,
+      "title": "Login Application Reader",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-17",
+      "day": 4,
+      "number": 17,
+      "title": "Normal Query 1",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-18",
+      "day": 4,
+      "number": 18,
+      "title": "Normal Query 2",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-19",
+      "day": 4,
+      "number": 19,
+      "title": "Normal Parameterized Pattern",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d4-lab-20",
+      "day": 4,
+      "number": 20,
+      "title": "Normal Status Query",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-21",
+      "day": 4,
+      "number": 21,
+      "title": "Repeat Normal Workload",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d4-lab-22",
+      "day": 4,
+      "number": 22,
+      "title": "Inspect Database Firewall Event",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d4-lab-23",
+      "day": 4,
+      "number": 23,
+      "title": "Create Policy",
+      "category": "AVDF Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d4-lab-24",
+      "day": 4,
+      "number": 24,
+      "title": "Open Sets / Profiles",
+      "category": "AVDF Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d4-lab-25",
+      "day": 4,
+      "number": 25,
+      "title": "Create User Set",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d4-lab-26",
+      "day": 4,
+      "number": 26,
+      "title": "Create Object Set",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 7
+    },
+    {
+      "key": "d4-lab-27",
+      "day": 4,
+      "number": 27,
+      "title": "Find Client Program",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d4-lab-28",
+      "day": 4,
+      "number": 28,
+      "title": "Create Client Program Set",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d4-lab-29",
+      "day": 4,
+      "number": 29,
+      "title": "Create Profile",
+      "category": "AVDF Web Console",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d4-lab-30",
+      "day": 4,
+      "number": 30,
+      "title": "Open SQL Cluster Sets",
+      "category": "AVDF Web Console",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d4-lab-31",
+      "day": 4,
+      "number": 31,
+      "title": "Filter SQL Clusters",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d4-lab-32",
+      "day": 4,
+      "number": 32,
+      "title": "Inspect Sample SQL",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d4-lab-33",
+      "day": 4,
+      "number": 33,
+      "title": "Build Cluster Set",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d4-lab-34",
+      "day": 4,
+      "number": 34,
+      "title": "Add SQL Statement Rule",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-35",
+      "day": 4,
+      "number": 35,
+      "title": "Configure Rule Action",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d4-lab-36",
+      "day": 4,
+      "number": 36,
+      "title": "Create Database Object Rule",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-37",
+      "day": 4,
+      "number": 37,
+      "title": "Select Commands",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d4-lab-38",
+      "day": 4,
+      "number": 38,
+      "title": "Select Object Set",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-39",
+      "day": 4,
+      "number": 39,
+      "title": "Enable Row Count Capture",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d4-lab-40",
+      "day": 4,
+      "number": 40,
+      "title": "Configure Sensitive Object Action",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 7
+    },
+    {
+      "key": "d4-lab-41",
+      "day": 4,
+      "number": 41,
+      "title": "Open Default Rule",
+      "category": "AVDF Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d4-lab-42",
+      "day": 4,
+      "number": 42,
+      "title": "Configure Unknown Traffic",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d4-lab-43",
+      "day": 4,
+      "number": 43,
+      "title": "Open Login/Logout Policy",
+      "category": "AVDF Web Console",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d4-lab-44",
+      "day": 4,
+      "number": 44,
+      "title": "Verify Policy Architecture",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-45",
+      "day": 4,
+      "number": 45,
+      "title": "Save Policy",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d4-lab-46",
+      "day": 4,
+      "number": 46,
+      "title": "Verify Policy",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-47",
+      "day": 4,
+      "number": 47,
+      "title": "Deploy Policy",
+      "category": "AVDF Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d4-lab-48",
+      "day": 4,
+      "number": 48,
+      "title": "Verify Assigned Policy",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d4-lab-49",
+      "day": 4,
+      "number": 49,
+      "title": "Execute Known SQL",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-50",
+      "day": 4,
+      "number": 50,
+      "title": "Different Literal, Same SQL Pattern",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d4-lab-51",
+      "day": 4,
+      "number": 51,
+      "title": "Sensitive Data Alert",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-52",
+      "day": 4,
+      "number": 52,
+      "title": "UPDATE Alert",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d4-lab-53",
+      "day": 4,
+      "number": 53,
+      "title": "Default Rule Alert",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-54",
+      "day": 4,
+      "number": 54,
+      "title": "Small Query",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d4-lab-55",
+      "day": 4,
+      "number": 55,
+      "title": "Larger Query",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-56",
+      "day": 4,
+      "number": 56,
+      "title": "Verify Row Count",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d4-lab-57",
+      "day": 4,
+      "number": 57,
+      "title": "Create Alert Policy",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d4-lab-58",
+      "day": 4,
+      "number": 58,
+      "title": "Define Condition",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-59",
+      "day": 4,
+      "number": 59,
+      "title": "Trigger Large Result Alert",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-60",
+      "day": 4,
+      "number": 60,
+      "title": "Verify Alert",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 7
+    },
+    {
+      "key": "d4-lab-61",
+      "day": 4,
+      "number": 61,
+      "title": "Create Session Context Rule",
+      "category": "AVDF Web Console",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d4-lab-62",
+      "day": 4,
+      "number": 62,
+      "title": "View Evaluation Order",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d4-lab-63",
+      "day": 4,
+      "number": 63,
+      "title": "All Activity Report",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-64",
+      "day": 4,
+      "number": 64,
+      "title": "Add Useful Columns",
+      "category": "AVDF Web Console",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d4-lab-65",
+      "day": 4,
+      "number": 65,
+      "title": "Filter Firewall Events",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-66",
+      "day": 4,
+      "number": 66,
+      "title": "Sensitive Object Report",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d4-lab-67",
+      "day": 4,
+      "number": 67,
+      "title": "Large Result Investigation",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d4-lab-68",
+      "day": 4,
+      "number": 68,
+      "title": "Native Audit Query",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d4-lab-69",
+      "day": 4,
+      "number": 69,
+      "title": "Failed Login Correlation",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d4-lab-70",
+      "day": 4,
+      "number": 70,
+      "title": "Generate Failed Logins",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d4-lab-71",
+      "day": 4,
+      "number": 71,
+      "title": "Successful Login",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d4-lab-72",
+      "day": 4,
+      "number": 72,
+      "title": "Full Sensitive Data Read",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d4-lab-73",
+      "day": 4,
+      "number": 73,
+      "title": "Credit Limit Enumeration",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-74",
+      "day": 4,
+      "number": 74,
+      "title": "Unauthorized-style Modification",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d4-lab-75",
+      "day": 4,
+      "number": 75,
+      "title": "Unexpected Query",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d4-lab-76",
+      "day": 4,
+      "number": 76,
+      "title": "Answer Investigation Questions",
+      "category": "AVDF Web Console",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d4-lab-77",
+      "day": 4,
+      "number": 77,
+      "title": "Export Policy",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d4-lab-78",
+      "day": 4,
+      "number": 78,
+      "title": "Copy Policy",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d4-lab-79",
+      "day": 4,
+      "number": 79,
+      "title": "Verify Firewall",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d4-lab-80",
+      "day": 4,
+      "number": 80,
+      "title": "Verify Monitoring Point",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-81",
+      "day": 4,
+      "number": 81,
+      "title": "Verify Agent",
+      "category": "OS Terminal",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d4-lab-82",
+      "day": 4,
+      "number": 82,
+      "title": "Verify Network SQL Exists",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d5-lab-1",
+      "day": 5,
+      "number": 1,
+      "title": "Set Oracle Environment",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-2",
+      "day": 5,
+      "number": 2,
+      "title": "Verify Database",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-3",
+      "day": 5,
+      "number": 3,
+      "title": "Verify PDB",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-4",
+      "day": 5,
+      "number": 4,
+      "title": "Verify Training Users",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-5",
+      "day": 5,
+      "number": 5,
+      "title": "Verify Sensitive Table",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-6",
+      "day": 5,
+      "number": 6,
+      "title": "Verify Native Audit",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-7",
+      "day": 5,
+      "number": 7,
+      "title": "Verify Audit Vault Trails",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-8",
+      "day": 5,
+      "number": 8,
+      "title": "Verify Database Firewall",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d5-lab-9",
+      "day": 5,
+      "number": 9,
+      "title": "Open All Activity Report",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-10",
+      "day": 5,
+      "number": 10,
+      "title": "Select Investigation Columns",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-11",
+      "day": 5,
+      "number": 11,
+      "title": "Filter Application Reader",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-12",
+      "day": 5,
+      "number": 12,
+      "title": "Failed Login Events Report",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-13",
+      "day": 5,
+      "number": 13,
+      "title": "Login and Logout Report",
+      "category": "AVDF Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-14",
+      "day": 5,
+      "number": 14,
+      "title": "Database Schema Activity Report",
+      "category": "AVDF Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-15",
+      "day": 5,
+      "number": 15,
+      "title": "Entitlement Activity Report",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-16",
+      "day": 5,
+      "number": 16,
+      "title": "Database Firewall Monitored Activity",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-17",
+      "day": 5,
+      "number": 17,
+      "title": "Database Firewall Alert Activity",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-18",
+      "day": 5,
+      "number": 18,
+      "title": "Inspect Day 4 Sensitive-Object Alert",
+      "category": "AVDF Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-19",
+      "day": 5,
+      "number": 19,
+      "title": "Create Focused Investigation Report",
+      "category": "AVDF Web Console",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d5-lab-20",
+      "day": 5,
+      "number": 20,
+      "title": "Save Customized Report",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-21",
+      "day": 5,
+      "number": 21,
+      "title": "Reopen Saved Report",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-22",
+      "day": 5,
+      "number": 22,
+      "title": "Create Report Schedule",
+      "category": "AVDF Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-23",
+      "day": 5,
+      "number": 23,
+      "title": "Check Scheduled Reports",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-24",
+      "day": 5,
+      "number": 24,
+      "title": "Create Training Target Group",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-25",
+      "day": 5,
+      "number": 25,
+      "title": "Add Target to Group",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-26",
+      "day": 5,
+      "number": 26,
+      "title": "Verify from Console",
+      "category": "AVDF Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-27",
+      "day": 5,
+      "number": 27,
+      "title": "Add PDB1 to a Compliance Group",
+      "category": "AVDF Web Console",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d5-lab-28",
+      "day": 5,
+      "number": 28,
+      "title": "Locate Oracle AVDF Setup Script",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-29",
+      "day": 5,
+      "number": 29,
+      "title": "Enable Entitlement Privileges",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d5-lab-30",
+      "day": 5,
+      "number": 30,
+      "title": "Verify AVDFCOLLECT",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-31",
+      "day": 5,
+      "number": 31,
+      "title": "Current Role Grants",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-32",
+      "day": 5,
+      "number": 32,
+      "title": "Current System Privileges",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-33",
+      "day": 5,
+      "number": 33,
+      "title": "Current Object Privileges",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-34",
+      "day": 5,
+      "number": 34,
+      "title": "Retrieve Baseline Entitlement",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-35",
+      "day": 5,
+      "number": 35,
+      "title": "Monitor Entitlement Job",
+      "category": "AVDF Web Console",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-36",
+      "day": 5,
+      "number": 36,
+      "title": "View Snapshot",
+      "category": "AVDF Web Console",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d5-lab-37",
+      "day": 5,
+      "number": 37,
+      "title": "Create Baseline Label",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-38",
+      "day": 5,
+      "number": 38,
+      "title": "Assign Label to Baseline Snapshot",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d5-lab-39",
+      "day": 5,
+      "number": 39,
+      "title": "User Privileges Report",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-40",
+      "day": 5,
+      "number": 40,
+      "title": "Object Privileges Report",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-41",
+      "day": 5,
+      "number": 41,
+      "title": "Role Privileges Report",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-42",
+      "day": 5,
+      "number": 42,
+      "title": "System Privileges Report",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-43",
+      "day": 5,
+      "number": 43,
+      "title": "Create Grant Audit Policy",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 6
+    },
+    {
+      "key": "d5-lab-44",
+      "day": 5,
+      "number": 44,
+      "title": "Verify Policy",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-45",
+      "day": 5,
+      "number": 45,
+      "title": "Create Power Role",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-46",
+      "day": 5,
+      "number": 46,
+      "title": "Grant Role to Reader",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-47",
+      "day": 5,
+      "number": 47,
+      "title": "Grant Direct HR Access",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-48",
+      "day": 5,
+      "number": 48,
+      "title": "Verify New Role",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-49",
+      "day": 5,
+      "number": 49,
+      "title": "Inspect Role Privileges",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-50",
+      "day": 5,
+      "number": 50,
+      "title": "Verify New Object Privilege",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-51",
+      "day": 5,
+      "number": 51,
+      "title": "Query Unified Audit Trail",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-52",
+      "day": 5,
+      "number": 52,
+      "title": "Login as Reader",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d5-lab-53",
+      "day": 5,
+      "number": 53,
+      "title": "Access HR.EMPLOYEES",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-54",
+      "day": 5,
+      "number": 54,
+      "title": "Full HR Row Count",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-55",
+      "day": 5,
+      "number": 55,
+      "title": "Existing Sensitive Data Access",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-56",
+      "day": 5,
+      "number": 56,
+      "title": "Modification Attempt",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d5-lab-57",
+      "day": 5,
+      "number": 57,
+      "title": "Failed Login Attempts",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-58",
+      "day": 5,
+      "number": 58,
+      "title": "Retrieve Entitlements Again",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-59",
+      "day": 5,
+      "number": 59,
+      "title": "Verify Job Completion",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-60",
+      "day": 5,
+      "number": 60,
+      "title": "View New Snapshot",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-61",
+      "day": 5,
+      "number": 61,
+      "title": "Create Second Label",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-62",
+      "day": 5,
+      "number": 62,
+      "title": "Open Entitlement Comparison",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-63",
+      "day": 5,
+      "number": 63,
+      "title": "Compare User Privileges",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-64",
+      "day": 5,
+      "number": 64,
+      "title": "Compare Role Privileges",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-65",
+      "day": 5,
+      "number": 65,
+      "title": "Compare Object Privileges",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-66",
+      "day": 5,
+      "number": 66,
+      "title": "Interpret Entitlement Drift",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d5-lab-67",
+      "day": 5,
+      "number": 67,
+      "title": "Open All Activity by Privileged Users",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d5-lab-68",
+      "day": 5,
+      "number": 68,
+      "title": "Grant SPA Privileges to AVDFCOLLECT",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-69",
+      "day": 5,
+      "number": 69,
+      "title": "Create Stored Procedure",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-70",
+      "day": 5,
+      "number": 70,
+      "title": "Execute Procedure",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-71",
+      "day": 5,
+      "number": 71,
+      "title": "Verify Procedure",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-72",
+      "day": 5,
+      "number": 72,
+      "title": "Enable Stored Procedure Retrieval",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-73",
+      "day": 5,
+      "number": 73,
+      "title": "Verify SPA Job",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-74",
+      "day": 5,
+      "number": 74,
+      "title": "Modify Procedure",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d5-lab-75",
+      "day": 5,
+      "number": 75,
+      "title": "Retrieve Stored Procedure State Again",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-76",
+      "day": 5,
+      "number": 76,
+      "title": "Verify Modification",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d5-lab-77",
+      "day": 5,
+      "number": 77,
+      "title": "List Alert Policies",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-78",
+      "day": 5,
+      "number": 78,
+      "title": "Open Alert Console",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-79",
+      "day": 5,
+      "number": 79,
+      "title": "Alert Status Workflow",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d5-lab-80",
+      "day": 5,
+      "number": 80,
+      "title": "Audit Trail Status",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d5-lab-81",
+      "day": 5,
+      "number": 81,
+      "title": "Database Firewall Monitoring Status",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-82",
+      "day": 5,
+      "number": 82,
+      "title": "Retention Policy",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-83",
+      "day": 5,
+      "number": 83,
+      "title": "Review Jobs",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d5-lab-84",
+      "day": 5,
+      "number": 84,
+      "title": "INCIDENT SCENARIO",
+      "category": "AVDF Web Console",
+      "detected_blocks": 1
+    },
+    {
+      "key": "d5-lab-85",
+      "day": 5,
+      "number": 85,
+      "title": "Native Failed-Login Investigation",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d5-lab-86",
+      "day": 5,
+      "number": 86,
+      "title": "AVDF Failed Login Report",
+      "category": "AVDF Web Console",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-87",
+      "day": 5,
+      "number": 87,
+      "title": "Find Native HR Access",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-88",
+      "day": 5,
+      "number": 88,
+      "title": "Find Firewall HR Access",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 4
+    },
+    {
+      "key": "d5-lab-89",
+      "day": 5,
+      "number": 89,
+      "title": "Find Full-Table Read",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d5-lab-90",
+      "day": 5,
+      "number": 90,
+      "title": "Find Large Result Alert",
+      "category": "AVDF Web Console",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-91",
+      "day": 5,
+      "number": 91,
+      "title": "Find UPDATE",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 5
+    },
+    {
+      "key": "d5-lab-92",
+      "day": 5,
+      "number": 92,
+      "title": "Check Current Object Privilege",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-93",
+      "day": 5,
+      "number": 93,
+      "title": "Find Who Granted It",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 3
+    },
+    {
+      "key": "d5-lab-94",
+      "day": 5,
+      "number": 94,
+      "title": "Confirm Entitlement Drift",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 8
+    },
+    {
+      "key": "d5-lab-95",
+      "day": 5,
+      "number": 95,
+      "title": "Revoke HR Access",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-96",
+      "day": 5,
+      "number": 96,
+      "title": "Revoke Power Role",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-97",
+      "day": 5,
+      "number": 97,
+      "title": "Drop Training Role",
+      "category": "Concept / Guided Simulation",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-98",
+      "day": 5,
+      "number": 98,
+      "title": "Verify HR Access Removed",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-99",
+      "day": 5,
+      "number": 99,
+      "title": "Verify Role Removed",
+      "category": "SQL*Plus / Database",
+      "detected_blocks": 2
+    },
+    {
+      "key": "d5-lab-100",
+      "day": 5,
+      "number": 100,
+      "title": "Verify REVOKE Audit Record",
+      "category": "AVCLI / Web Console",
+      "detected_blocks": 8
+    }
+  ],
+  "verification": {
+    "version": "0.3.0",
+    "day1": {
+      "labs": 54,
+      "regression_passed": 54,
+      "status": "PASS"
+    },
+    "suite": "day1_regression.py"
+  }
+}
