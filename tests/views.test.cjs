@@ -37,3 +37,42 @@ test('semua aktivitas panduan terhubung ke engine dan checklist dapat diselesaik
   app.finishScenario();assert.equal(app.state.learning[sc.id].complete,true,sc.id);
  }
 });
+test('bantuan dapat melanjutkan setiap langkah di seluruh 12 skenario tanpa catatan',async()=>{
+ const {engine,app,get,storage}=harness();engine.reset('scenario01');app.state=engine.state;
+ for(const sc of engine.scenarios){
+  await app.startScenario(sc.number);
+  for(let i=0;i<sc.steps.length;i++){
+   assert.equal(app.selectedStep,i);app.assistLearningStep();
+   assert.equal(app.state.learning[sc.id].assisted[sc.steps[i].number],true,sc.id+'/'+i);
+   assert.equal(app.selectedStep,Math.min(i+1,sc.steps.length-1));
+  }
+  app.finishScenario();assert.equal(app.state.learning[sc.id].complete,true,sc.id);
+  assert.match(get('page').innerHTML,/Selesai dengan bantuan/);
+  const saved=JSON.parse(storage.get(engine.key));assert.equal(saved.learning[sc.id].cursor,sc.steps.length-1);
+ }
+});
+test('bantuan memulihkan eksekusi parsial, menyimpan catatan, dan membuka langkah manual berikutnya',async()=>{
+ const {engine,app}=harness();engine.reset('scenario01');app.state=engine.state;await app.startScenario(3);
+ app.runLearningTask(0); // user creation succeeded; replaying it naively would fail
+ app.saveLearningNote('Catatan pribadi jangan dihapus');
+ app.state.learning.scenario01={complete:true};app.assistLearningStep();
+ assert.equal(app.selectedStep,1);assert.equal(app.state.learning.scenario03.notes[1],'Catatan pribadi jangan dihapus');
+ assert.ok(app.state.learning.scenario01.complete);
+ for(let i=0;i<engine.scenarios[2].steps[1].tasks.length;i++)app.runLearningTask(i);
+ app.finishLearningStep();assert.equal(app.selectedStep,2);
+ assert.equal(app.state.db.tables['AVDF_D2_APP.CUSTOMER_SECURE'].rows,5);
+ assert.equal(app.state.learning.scenario03.assisted[2],undefined);
+});
+test('bantuan pada langkah lama membatalkan progres lanjut tanpa membuang catatan',async()=>{
+ const {engine,app}=harness();engine.reset('scenario01');app.state=engine.state;await app.startScenario(1);
+ app.assistLearningStep();app.assistLearningStep();app.saveLearningNote('Catatan langkah 3');app.assistLearningStep();
+ app.selectedStep=0;app.assistLearningStep();
+ assert.equal(app.state.learning.scenario01.steps[3],undefined);assert.equal(app.state.learning.scenario01.notes[3],'Catatan langkah 3');
+ assert.equal(app.state.learning.scenario01.complete,false);
+});
+test('kegagalan bantuan tidak mengubah state atau progres pengguna',async()=>{
+ const {engine,app}=harness();engine.reset('scenario01');app.state=engine.state;await app.startScenario(1);
+ engine.scenarios[0].steps[0].tasks.push({channel:'sql',command:'UNSUPPORTED COMMAND'});
+ const before=JSON.stringify(app.state);app.assistLearningStep();
+ assert.equal(JSON.stringify(app.state),before);assert.equal(app.selectedStep,0);
+});

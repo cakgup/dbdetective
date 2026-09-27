@@ -8,17 +8,17 @@ Object.assign(App, {
     const done=Object.values(progress.steps||{}).filter(Boolean).length,checks=scenarioChecks(scenario.number,this.state);
     return this.pageHeader('Belajar AVDF — 12 skenario','Mulai dari 01. Setiap skenario menyiapkan prasyarat sendiri; tidak perlu menyelesaikan 394 potongan lab.',`<button class="btn" onclick="App.go('labs')">Referensi Day 1–5</button>`)+
       `<div class="callout"><b>Cara belajar:</b> pilih skenario → Mulai → baca langkah → jalankan aktivitas satu per satu → periksa output dan laporan → verifikasi akhir. Semua perintah berjalan di simulator browser.</div>
-      <div class="learning-layout"><nav class="learning-scenarios" aria-label="Skenario">${catalog.map(x=>`<button class="scenario-checkpoint ${x.number===scenario.number?'active':''}" onclick="App.selectScenario(${x.number})"><span class="scenario-no">${String(x.number).padStart(2,'0')}</span><span><b>${esc(x.title)}</b><small>${this.state.learning[x.id]?.complete?'✓ Selesai':'Belum selesai'}</small></span></button>`).join('')}</nav>
+      <div class="learning-layout"><nav class="learning-scenarios" aria-label="Skenario">${catalog.map(x=>`<button class="scenario-checkpoint ${x.number===scenario.number?'active':''}" onclick="App.selectScenario(${x.number})"><span class="scenario-no">${String(x.number).padStart(2,'0')}</span><span><b>${esc(x.title)}</b><small>${this.state.learning[x.id]?.complete?(Object.values(this.state.learning[x.id].assisted||{}).some(Boolean)?'✓ Selesai dengan bantuan':'✓ Selesai'):'Belum selesai'}</small></span></button>`).join('')}</nav>
       <div><div class="card"><div class="card-body"><h2>${esc(scenario.title)}</h2><p>${esc(scenario.goal)}</p><p><b>Target akhir:</b> ${esc(scenario.expected)}</p><p><b>Perhatikan:</b> ${esc(scenario.tip)}</p><a href="${esc(scenario.source)}" target="_blank" rel="noopener">Baca lembar sumber avdf_handson</a><div class="actions learning-actions"><button class="btn primary" onclick="App.startScenario(${scenario.number})">${active?'Ulangi dari awal':'Mulai skenario '+scenario.number}</button><span>Mulai/ulangi mengganti konfigurasi dan evidence latihan; riwayat penyelesaian skenario lain tetap tersimpan.</span></div></div></div>
       ${active?`<div class="callout"><b>${esc(this.state.trainer.checkpoint_label)}</b> · ${done}/${scenario.steps.length} langkah ditinjau · SQL: ${esc(this.state.db.session_user)} @ ${esc(this.state.db.container)} (${this.state.db.connected?'terhubung':'terputus'})</div>
-      <div class="learning-stepbar"><label for="learningStep">Langkah</label><select id="learningStep" onchange="App.selectedStep=+this.value;App.render()">${scenario.steps.map((x,i)=>`<option value="${i}" ${x.number===step.number?'selected':''}>${progress.steps?.[x.number]?'✓ ':''}${x.number}. ${esc(x.title)}</option>`).join('')}</select></div>
+      <div class="learning-stepbar"><label for="learningStep">Langkah</label><select id="learningStep" onchange="App.selectedStep=+this.value;App.render()">${scenario.steps.map((x,i)=>`<option value="${i}" ${x.number===step.number?'selected':''}>${progress.assisted?.[x.number]?'Dibantu · ':progress.steps?.[x.number]?'✓ ':''}${x.number}. ${esc(x.title)}</option>`).join('')}</select></div>
       <article class="card"><div class="card-body"><h2>${step.number}. ${esc(step.title)}</h2>${step.note?`<div class="callout warn">${esc(step.note)}</div>`:''}
-      ${this.stepHint(scenario.number,step.number)}
+      ${progress.assisted?.[step.number]?'<div class="callout">Langkah ini diselesaikan dengan bantuan. Output contoh dapat ditinjau di bawah.</div>':''}${this.stepHint(scenario.number,step.number)}
       ${step.tasks.length?step.tasks.map((task,i)=>this.learningTask(scenario,step,task,i,progress)).join(''):`<p>Langkah observasi: buka halaman bukti, cocokkan isinya dengan panduan sumber di bawah, lalu catat temuan Anda.</p>`}
       <button class="btn" onclick="App.openStepEvidence()">Buka halaman bukti</button>
       <details class="source-notes"><summary>Instruksi lengkap dari lembar sumber</summary>${miniMarkdown(step.body)}</details>
       <label for="learningNotes">Catatan bukti (contoh: event ID, SQL, return code, policy, kesimpulan)</label><textarea id="learningNotes" class="learning-notes" oninput="App.saveLearningNote(this.value)">${esc(progress.notes?.[step.number]||'')}</textarea>
-      <div class="actions learning-actions"><button class="btn" ${this.selectedStep===0?'disabled':''} onclick="App.selectedStep--;App.render()">Sebelumnya</button><button class="btn primary" onclick="App.finishLearningStep()">Sudah diperiksa → Berikutnya</button></div></div></article>
+      <div class="actions learning-actions"><button class="btn" ${this.selectedStep===0?'disabled':''} onclick="App.selectedStep--;App.render()">Sebelumnya</button><button class="btn primary" onclick="App.finishLearningStep()">Sudah diperiksa → Berikutnya</button><button class="btn" onclick="App.assistLearningStep()">Menyerah — bantu &amp; lanjut</button></div><p class="learning-hint">Bantuan menyiapkan ulang kondisi latihan sampai langkah ini, lalu melanjutkan tanpa mewajibkan catatan. Catatan Anda tetap tersimpan; eksperimen dan progres setelah langkah ini akan diulang. Langkah yang dibantu diberi tanda.</p></div></article>
       <div class="card"><div class="card-body"><h2>Verifikasi hasil skenario</h2><p>Pemeriksaan membaca state aktual. Jalankan semua aktivitas dan tinjau langkah observasi sebelum menyelesaikan skenario.</p><ul>${checks.map(c=>`<li>${c.ok?'✓':'○'} ${esc(c.label)}</li>`).join('')}</ul><button class="btn primary" onclick="App.finishScenario()">Verifikasi &amp; selesaikan skenario</button></div></div>`:`<div class="empty">Klik Mulai skenario untuk memuat prasyarat dan membuka panduan langkah demi langkah.</div>`}</div></div>`;
   },
   selectScenario(n){this.selectedScenario=n;this.selectedStep=0;this.render();},
@@ -35,6 +35,33 @@ Object.assign(App, {
     const output=runScenarioTask(StaticEngine,step.tasks[i]);this.state=StaticEngine.state;const progress=this.learningProgress();progress.tasks||={};progress.tasks[step.number+'-'+i]={output,ok:scenarioTaskPassed(step.tasks[i],output)};progress.steps||={};progress.steps[step.number]=false;progress.cursor=this.selectedStep;progress.complete=false;StaticEngine.save();this.render();
   },
   editLearningCommand(i){const step=StaticEngine.scenarios[this.selectedScenario-1].steps[this.selectedStep],task=step.tasks[i];this.console=task.channel;sessionStorage.setItem('avdf_prefill',task.command);this.go('console');},
+  assistLearningStep(){
+    const sc=StaticEngine.scenarios[this.selectedScenario-1],index=this.selectedStep;
+    if(!sc||this.state.trainer.checkpoint!==sc.id||!sc.steps[index]){this.toast('Mulai skenario ini dahulu.');return;}
+    const previous=StaticEngine.clone(this.state.learning[sc.id]||{});
+    // Build a consistent example in isolation: partial/duplicate commands or a
+    // broken experimental state must not leave the next step unusable.
+    const prepared=Object.assign(Object.create(StaticEngine),{state:StaticEngine.clone(this.state),sequence:StaticEngine.sequence,save(){}});
+    try {
+      prepared.reset(sc.id);
+      const progress={steps:{},tasks:{},assisted:{},notes:previous.notes||{},complete:false};
+      for(let k=0;k<=index;k++){
+        const step=sc.steps[k],assisted=k===index||!!previous.assisted?.[step.number]||!previous.steps?.[step.number];
+        for(const [i,task] of step.tasks.entries()){
+          const output=runScenarioTask(prepared,task);
+          if(!scenarioTaskPassed(task,output))throw new Error('Langkah '+step.number+': '+output);
+          progress.tasks[step.number+'-'+i]={output,ok:true,assisted};
+        }
+        progress.steps[step.number]=true;
+        if(assisted)progress.assisted[step.number]=true;
+      }
+      progress.cursor=Math.min(index+1,sc.steps.length-1);
+      prepared.state.learning[sc.id]=progress;
+      StaticEngine.state=prepared.state;StaticEngine.sequence=prepared.sequence;
+      this.state=StaticEngine.state;this.selectedStep=progress.cursor;StaticEngine.save();this.render();
+      this.toast(index===sc.steps.length-1?'Langkah dibantu. Klik Verifikasi & selesaikan skenario.':'Langkah dibantu; Anda bisa melanjutkan tahap berikutnya.');
+    }catch(error){this.toast('Bantuan belum berhasil: '+error.message);}
+  },
   saveLearningNote(text){const p=this.learningProgress();p.notes||={};p.notes[StaticEngine.scenarios[this.selectedScenario-1].steps[this.selectedStep].number]=text;StaticEngine.save();},
   finishLearningStep(){const sc=StaticEngine.scenarios[this.selectedScenario-1],step=sc.steps[this.selectedStep],p=this.learningProgress();if(step.tasks.some((_,i)=>!p.tasks?.[step.number+'-'+i]?.ok)){this.toast('Jalankan aktivitas pada panduan sampai hasilnya sesuai.');return;}if(!step.tasks.length&&!p.notes?.[step.number]?.trim()){this.toast('Catat temuan observasi sebelum lanjut.');return;}p.steps||={};p.steps[step.number]=true;StaticEngine.save();if(this.selectedStep<sc.steps.length-1)this.selectedStep++;this.render();},
   finishScenario(){const sc=StaticEngine.scenarios[this.selectedScenario-1],p=this.learningProgress();if(!sc.steps.every(x=>p.steps?.[x.number])||!scenarioChecks(sc.number,this.state).every(x=>x.ok)){this.toast('Masih ada langkah atau bukti yang belum terpenuhi.');return;}p.complete=true;StaticEngine.save();this.toast('Skenario terverifikasi. Pilih skenario berikutnya.');this.render();},
