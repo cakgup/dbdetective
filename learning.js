@@ -18,7 +18,7 @@ Object.assign(App, {
       <button class="btn" onclick="App.openStepEvidence()">Buka halaman bukti</button>
       <details class="source-notes"><summary>Instruksi lengkap dari lembar sumber</summary>${miniMarkdown(step.body)}</details>
       <label for="learningNotes">Catatan bukti (contoh: event ID, SQL, return code, policy, kesimpulan)</label><textarea id="learningNotes" class="learning-notes" oninput="App.saveLearningNote(this.value)">${esc(progress.notes?.[step.number]||'')}</textarea>
-      <div class="actions learning-actions"><button class="btn" ${this.selectedStep===0?'disabled':''} onclick="App.selectedStep--;App.render()">Sebelumnya</button><button class="btn primary" onclick="App.finishLearningStep()">Sudah diperiksa → Berikutnya</button><button class="btn" onclick="App.assistLearningStep()">Menyerah — bantu &amp; lanjut</button></div><p class="learning-hint">Bantuan menyiapkan ulang kondisi latihan sampai langkah ini, lalu melanjutkan tanpa mewajibkan catatan. Catatan Anda tetap tersimpan; eksperimen dan progres setelah langkah ini akan diulang. Langkah yang dibantu diberi tanda.</p></div></article>
+      <div class="actions learning-actions"><button class="btn" ${this.selectedStep===0?'disabled':''} onclick="App.selectedStep--;App.render()">Sebelumnya</button><button class="btn primary" onclick="App.finishLearningStep()">Sudah diperiksa → Berikutnya</button><button class="btn" onclick="App.assistLearningStep()">Cek Bukti</button></div><p class="learning-hint">Cek Bukti menyiapkan ulang kondisi latihan sampai langkah ini dan menampilkan evidence simulasi di catatan bukti. Baca hasilnya, lalu klik Berikutnya. Catatan Anda tetap tersimpan; eksperimen dan progres setelah langkah ini akan diulang. Langkah yang dibantu diberi tanda.</p></div></article>
       <div class="card"><div class="card-body"><h2>Verifikasi hasil skenario</h2><p>Pemeriksaan membaca state aktual. Jalankan semua aktivitas dan tinjau langkah observasi sebelum menyelesaikan skenario.</p><ul>${checks.map(c=>`<li>${c.ok?'✓':'○'} ${esc(c.label)}</li>`).join('')}</ul><button class="btn primary" onclick="App.finishScenario()">Verifikasi &amp; selesaikan skenario</button></div></div>`:`<div class="empty">Klik Mulai skenario untuk memuat prasyarat dan membuka panduan langkah demi langkah.</div>`}</div></div>`;
   },
   selectScenario(n){this.selectedScenario=n;this.selectedStep=0;this.render();},
@@ -55,12 +55,47 @@ Object.assign(App, {
         progress.steps[step.number]=true;
         if(assisted)progress.assisted[step.number]=true;
       }
-      progress.cursor=Math.min(index+1,sc.steps.length-1);
+      const step=sc.steps[index];
+      const evidence=this.learningEvidence(sc,step,prepared.state,progress);
+      const oldEvidence=previous.evidence?.[step.number];
+      let note=progress.notes[step.number]||'';
+      if(oldEvidence&&note.includes(oldEvidence))note=note.replace(oldEvidence,evidence);
+      else note+=(note.trim()?'\n\n':'')+evidence;
+      progress.notes[step.number]=note;
+      progress.evidence={...previous.evidence,[step.number]:evidence};
+      progress.cursor=index;
       prepared.state.learning[sc.id]=progress;
       StaticEngine.state=prepared.state;StaticEngine.sequence=prepared.sequence;
       this.state=StaticEngine.state;this.selectedStep=progress.cursor;StaticEngine.save();this.render();
-      this.toast(index===sc.steps.length-1?'Langkah dibantu. Klik Verifikasi & selesaikan skenario.':'Langkah dibantu; Anda bisa melanjutkan tahap berikutnya.');
+      this.toast('Evidence ditampilkan di catatan bukti. Baca hasilnya, lalu klik Berikutnya.');
     }catch(error){this.toast('Bantuan belum berhasil: '+error.message);}
+  },
+  learningEvidence(sc,step,state,progress){
+    const lines=[`[Evidence simulasi — ${sc.id} / langkah ${step.number}]`,step.title];
+    for(const [i,task] of step.tasks.entries()){
+      lines.push(`\nAktivitas ${i+1} (${task.channel||'Web Console'}):`,progress.tasks[step.number+'-'+i].output);
+    }
+    const events=[...state.avdf_repository,...state.firewall_events].sort((a,b)=>b.event_time.localeCompare(a.event_time)).slice(0,5);
+    lines.push('\nKondisi simulasi setelah langkah ini:',`Sesi SQL: ${state.db.session_user} @ ${state.db.container} (${state.db.connected?'terhubung':'terputus'})`,
+      `Native audit: ${state.db.native_events.length} event; repository: ${state.avdf_repository.length}; firewall: ${state.firewall_events.length}`);
+    const evidence={
+      targets:state.targets.map(x=>({name:x.name,status:x.status,retention:x.retention_policy})),
+      trails:state.trails.map(x=>({type:x.type,status:x.status})),
+      monitors:state.monitoring_points.map(x=>({status:x.status,address:x.address,policy:x.policy,database_response:x.database_response})),
+      alerts:state.alerts.slice(0,5).map(x=>({id:x.id,policy:x.policy,status:x.status,user:x.user,row_count:x.row_count,event_id:x.event_id})),
+      snapshots:state.entitlement_snapshots.map(x=>({id:x.id,label:x.label,reader:x.users.AVDF_D2_READER?{roles:x.users.AVDF_D2_READER.roles,object_privileges:x.users.AVDF_D2_READER.object_privileges}:null})),
+      stored_procedure_changes:state.spa_changes,
+      reports:state.saved_reports.map(x=>({name:x.name,filter:x.filter})),
+      schedules:state.report_schedules,
+      groups:state.target_groups,
+      compliance:state.compliance_groups.filter(x=>x.targets.length),
+      jobs:state.jobs.slice(0,5).map(x=>({type:x.type,status:x.status})),
+      events:events.map(x=>({id:x.id,time:x.event_time,source:x.source,user:x.dbusername||x.user,event:x.action_name||x.command,object:x.object_name||x.object,return_code:x.return_code,policy:x.policy,row_count:x.row_count,sql:x.sql_text}))
+    };
+    const fields={1:['events'],2:['targets','trails','events'],3:['targets','alerts','jobs'],4:['monitors','trails'],5:['monitors','events'],6:['monitors','jobs'],7:['alerts','events'],8:['reports','schedules','groups','compliance'],9:['snapshots','events'],10:['stored_procedure_changes','jobs'],11:['alerts','trails','monitors','jobs'],12:['snapshots','alerts','events']}[sc.number]||[];
+    for(const key of fields)lines.push(`${key}: ${JSON.stringify(evidence[key],null,2)}`);
+    lines.push('\nChecklist akhir skenario (sebagian mungkin belum terpenuhi pada langkah ini):',...scenarioChecks(sc.number,state).map(c=>`${c.ok?'Terpenuhi':'Belum terpenuhi'} — ${c.label}`));
+    return lines.join('\n');
   },
   saveLearningNote(text){const p=this.learningProgress();p.notes||={};p.notes[StaticEngine.scenarios[this.selectedScenario-1].steps[this.selectedStep].number]=text;StaticEngine.save();},
   finishLearningStep(){const sc=StaticEngine.scenarios[this.selectedScenario-1],step=sc.steps[this.selectedStep],p=this.learningProgress();if(step.tasks.some((_,i)=>!p.tasks?.[step.number+'-'+i]?.ok)){this.toast('Jalankan aktivitas pada panduan sampai hasilnya sesuai.');return;}if(!step.tasks.length&&!p.notes?.[step.number]?.trim()){this.toast('Catat temuan observasi sebelum lanjut.');return;}p.steps||={};p.steps[step.number]=true;StaticEngine.save();if(this.selectedStep<sc.steps.length-1)this.selectedStep++;this.render();},

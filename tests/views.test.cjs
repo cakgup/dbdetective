@@ -44,7 +44,9 @@ test('bantuan dapat melanjutkan setiap langkah di seluruh 12 skenario tanpa cata
   for(let i=0;i<sc.steps.length;i++){
    assert.equal(app.selectedStep,i);app.assistLearningStep();
    assert.equal(app.state.learning[sc.id].assisted[sc.steps[i].number],true,sc.id+'/'+i);
-   assert.equal(app.selectedStep,Math.min(i+1,sc.steps.length-1));
+   assert.equal(app.selectedStep,i);
+   assert.match(app.state.learning[sc.id].notes[sc.steps[i].number],/Evidence simulasi/);
+   app.finishLearningStep();assert.equal(app.selectedStep,Math.min(i+1,sc.steps.length-1));
   }
   app.finishScenario();assert.equal(app.state.learning[sc.id].complete,true,sc.id);
   assert.match(get('page').innerHTML,/Selesai dengan bantuan/);
@@ -55,8 +57,8 @@ test('bantuan memulihkan eksekusi parsial, menyimpan catatan, dan membuka langka
  const {engine,app}=harness();engine.reset('scenario01');app.state=engine.state;await app.startScenario(3);
  app.runLearningTask(0); // user creation succeeded; replaying it naively would fail
  app.saveLearningNote('Catatan pribadi jangan dihapus');
- app.state.learning.scenario01={complete:true};app.assistLearningStep();
- assert.equal(app.selectedStep,1);assert.equal(app.state.learning.scenario03.notes[1],'Catatan pribadi jangan dihapus');
+ app.state.learning.scenario01={complete:true};app.assistLearningStep();app.finishLearningStep();
+ assert.equal(app.selectedStep,1);assert.match(app.state.learning.scenario03.notes[1],/^Catatan pribadi jangan dihapus/);
  assert.ok(app.state.learning.scenario01.complete);
  for(let i=0;i<engine.scenarios[2].steps[1].tasks.length;i++)app.runLearningTask(i);
  app.finishLearningStep();assert.equal(app.selectedStep,2);
@@ -65,9 +67,9 @@ test('bantuan memulihkan eksekusi parsial, menyimpan catatan, dan membuka langka
 });
 test('bantuan pada langkah lama membatalkan progres lanjut tanpa membuang catatan',async()=>{
  const {engine,app}=harness();engine.reset('scenario01');app.state=engine.state;await app.startScenario(1);
- app.assistLearningStep();app.assistLearningStep();app.saveLearningNote('Catatan langkah 3');app.assistLearningStep();
+ app.assistLearningStep();app.finishLearningStep();app.assistLearningStep();app.finishLearningStep();app.saveLearningNote('Catatan langkah 3');app.assistLearningStep();
  app.selectedStep=0;app.assistLearningStep();
- assert.equal(app.state.learning.scenario01.steps[3],undefined);assert.equal(app.state.learning.scenario01.notes[3],'Catatan langkah 3');
+ assert.equal(app.state.learning.scenario01.steps[3],undefined);assert.match(app.state.learning.scenario01.notes[3],/^Catatan langkah 3/);
  assert.equal(app.state.learning.scenario01.complete,false);
 });
 test('kegagalan bantuan tidak mengubah state atau progres pengguna',async()=>{
@@ -75,4 +77,15 @@ test('kegagalan bantuan tidak mengubah state atau progres pengguna',async()=>{
  engine.scenarios[0].steps[0].tasks.push({channel:'sql',command:'UNSUPPORTED COMMAND'});
  const before=JSON.stringify(app.state);app.assistLearningStep();
  assert.equal(JSON.stringify(app.state),before);assert.equal(app.selectedStep,0);
+});
+test('Cek Bukti menampilkan evidence dalam textarea, mempertahankan catatan, dan tidak menggandakan hasil',async()=>{
+ const {engine,app,get,storage}=harness();engine.reset('scenario01');app.state=engine.state;await app.startScenario(1);
+ app.saveLearningNote('Catatan saya');app.assistLearningStep();
+ assert.equal(app.selectedStep,0);
+ let note=app.state.learning.scenario01.notes[1];assert.match(note,/^Catatan saya/);assert.match(note,/\/opt\/oracle/);
+ assert.match(get('page').innerHTML,/>Cek Bukti<\/button>/);
+ const textarea=get('page').innerHTML.match(/id="learningNotes"[^>]*>([\s\S]*?)<\/textarea>/)[1];assert.match(textarea,/Evidence simulasi/);
+ app.assistLearningStep();note=app.state.learning.scenario01.notes[1];assert.equal((note.match(/\[Evidence simulasi/g)||[]).length,1);
+ assert.equal(JSON.parse(storage.get(engine.key)).learning.scenario01.notes[1],note);
+ app.finishLearningStep();assert.equal(app.selectedStep,1);
 });
